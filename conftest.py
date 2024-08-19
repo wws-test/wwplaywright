@@ -16,16 +16,7 @@ from playwright.sync_api import sync_playwright
 
 
 
-def pytest_addoption(parser):
-    parser.addoption(
-        "--host",
-        action="store",
-        default="http://10.30.76.150:8080/",
-        help="base URL for login page",
-    )
-    logger.info("添加命令行参数 host")
-    parser.addoption("--wtrace" , default= False, action="store_true", help="启用 Playwright 的追踪功能")
-    logger.info("添追踪功能")
+
 
 
 @pytest.fixture(scope="session")
@@ -47,19 +38,11 @@ def page(pytestconfig):
         browser = p.chromium.launch(headless=False, timeout=5_000)
         context = browser.new_context()
         page = context.new_page()
-
-        if pytestconfig.getoption("wtrace"):
-            context.tracing.start(screenshots=True, snapshots=True, sources=True)
-
+        context.tracing.start(screenshots=True, snapshots=True, sources=True)
         yield page
-
         logger.info("page session fixture closing.......")
-        base_url = pytestconfig.getoption("base_url") or "http://10.30.76.150:8080/"
-        domain = extract_domain(base_url).replace(".", "_")
-
-        if pytestconfig.getoption("wtrace"):
-            logger.info("stop tracing...")
-            context.tracing.stop(path=f"{domain}_trace.zip")
+        logger.info("stop tracing...")
+        context.tracing.stop(path="trace.zip")
         browser.close()
 
 # @pytest.fixture(scope="session")
@@ -105,4 +88,11 @@ def login(page, pytestconfig):
 def login_goto_project(page, pytestconfig):
     yield _login(page, pytestconfig)
 
-
+def pytest_addoption(parser):
+    parser.addoption(
+        "--host",
+        action="store",
+        default="http://10.30.76.150:8080/",
+        help="base URL for login page",
+    )
+    logger.info("添加命令行参数 host")
