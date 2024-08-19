@@ -18,24 +18,24 @@ class LoginPage:
 
     # 定义页面元素
     def username_input(self):
-        return self.page.locator("#email")
+        return self.page.locator("#userName")
 
     def password_input(self):
-        return self.page.locator("#pwd")
+        return self.page.locator("#password")
 
     def submit_button(self):
-        return self.page.locator("#submitBtn")
+        return self.page.locator("button")
 
     # 定义操作
     @allure.step("打开登录页面，填写账号密码")
     def login(self, username: str, password: str):
-        logger.info(f"打开登录页面: {self.base_url + '/fastrunner/login'}，填写账号密码")
-        self.page.goto(self.base_url + "/fastrunner/login")
+        logger.info(f"打开登录页面: {self.base_url + '/login/#/login?redirect_uri=http%3A%2F%2F10.30.76.150%3A8080%2F%23%2Flink%2FfactoryModel0001'}，填写账号密码")
+        self.page.goto(self.base_url)
         self.username_input().fill(username)
         self.password_input().fill(password)
         logger.info("点击登录按钮")
         self.submit_button().click()
-        self.page.wait_for_load_state("networkidle", timeout=3_000)
+        # self.page.wait_for_load_state("networkidle", timeout=3_000)
         logger.info("登录成功")
 
     @allure.step("切换项目列表首页")

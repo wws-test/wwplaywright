@@ -14,6 +14,13 @@ from playwright.sync_api import sync_playwright
 # @Email: lihuacai168@gmail.com
 
 
+@pytest.fixture(scope="session")
+def browser_context_args(browser_context_args):
+    return {
+        **browser_context_args,
+        "ignore_https_errors": True
+    }
+
 def extract_domain(url_string):
     parsed_url = urlparse(url_string)
     return parsed_url.netloc
@@ -23,7 +30,7 @@ def extract_domain(url_string):
 def page(pytestconfig):
     with sync_playwright() as p:
         logger.info("page session fixture starting....")
-        browser = p.chromium.launch(headless=True, timeout=5_000)
+        browser = p.chromium.launch(headless=False, timeout=5_000)
         context = browser.new_context()
         page = context.new_page()
         context.tracing.start(screenshots=True, snapshots=True, sources=True)
@@ -35,11 +42,32 @@ def page(pytestconfig):
         context.tracing.stop(path=f"{domain}_trace.zip")
         browser.close()
 
+@pytest.fixture(scope="session")
+def page(pytestconfig):
+    with sync_playwright() as p:
+        logger.info("page session fixture starting....")
+        browser = p.chromium.launch(headless=True, timeout=5_000)
+        context = browser.new_context()
+        page = context.new_page()
+
+        if pytestconfig.getoption("trace"):
+            context.tracing.start(screenshots=True, snapshots=True, sources=True)
+
+        yield page
+
+        logger.info("page session fixture closing.......")
+        base_url = pytestconfig.getoption("base_url") or "http://119.91.147.215"
+        domain = extract_domain(base_url).replace(".", "_")
+
+        if pytestconfig.getoption("trace"):
+            logger.info("stop tracing...")
+            context.tracing.stop(path=f"{domain}_trace.zip")
+
+        browser.close()
 
 # @pytest.fixture(scope="session")
 def auth_page():
     with sync_playwright() as p:
-        logger.info("page session fixture starting....")
         browser = p.chromium.launch(headless=False, timeout=50_000)
         logger.info("使用auth.json文件恢复登录状态")
         base_path = os.path.dirname(os.path.realpath(__file__))
@@ -59,13 +87,13 @@ def _login(page, pytestconfig, is_goto_project_detail=False):
     if base_url := pytestconfig.getoption("base_url"):
         logger.info(f"命令行传入参数，base_url={base_url}")
     else:
-        default_url = "http://119.91.147.215"
+        default_url = "http://10.30.76.150:8080/"
         logger.warning(f"没有传入base-url，会使用默认base_url = {default_url}，如果需要使用--base-url=xxx修改")
         base_url = default_url
 
     login_page = LoginPage(page, base_url=base_url)
 
-    login_page.login("test", "test2020")
+    login_page.login("admin", "Yanfa@1304")
     if is_goto_project_detail:
         logger.info("登录并进入项目详情")
         login_page.switch2project_base()
@@ -89,8 +117,14 @@ def pytest_addoption(parser):
     parser.addoption(
         "--host",
         action="store",
-        default="http://119.91.147.215",
+        default="http://10.30.76.150:8080/",
         help="base URL for login page",
     )
     logger.info("添加命令行参数 host")
+    parser.addoption(
+        "--trace",
+        action="store_true",
+        default=False,
+        help="Enable tracing"
+    )
     # parser.addoption("--base-url", action="store", default="http://119.91.147.215", help="base URL for login page")
