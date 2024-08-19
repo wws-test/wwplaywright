@@ -29,7 +29,7 @@ class LoginPage:
     # 定义操作
     @allure.step("打开登录页面，填写账号密码")
     def login(self, username: str, password: str):
-        logger.info(f"打开登录页面: {self.base_url + '/login/#/login?redirect_uri=http%3A%2F%2F10.30.76.150%3A8080%2F%23%2Flink%2FfactoryModel0001'}，填写账号密码")
+        logger.info(f"打开登录页面: {self.base_url + '/login/#/login'}，填写账号密码")
         self.page.goto(self.base_url)
         self.username_input().fill(username)
         self.password_input().fill(password)
@@ -37,20 +37,7 @@ class LoginPage:
         self.submit_button().click()
         # self.page.wait_for_load_state("networkidle", timeout=3_000)
         logger.info("登录成功")
+        # self.page.goto(self.base_url + "#/hellow", timeout=3000)
 
-    @allure.step("切换项目列表首页")
-    def switch2project_base(self, project_id=7):
-        logger.info("切换项目列表首页")
-        self.page.goto(self.base_url + f"/fastrunner/api_record/{project_id}", timeout=3000)
-        self.page.get_by_role("menuitem", name=" 首 页").click()
 
-    @allure.step("从项目列表进入项目详情")
-    def enter_project_detail(self, project_name="示例项目"):
-        logger.info(f"从项目列表进入项目详情：{project_name=}")
-        self.page.get_by_text(project_name, exact=True).click()
 
-    @allure.step("登录并进入项目详情")
-    def login_and_to_project_detail(self, username, password, project_name):
-        self.login(username, password)
-        self.switch2project_base()
-        self.enter_project_detail(project_name)

@@ -4,6 +4,7 @@ import os
 from urllib.parse import urlparse
 
 import pytest
+
 from log import logger
 from pages.login_page import LoginPage
 from playwright.sync_api import sync_playwright
@@ -12,6 +13,19 @@ from playwright.sync_api import sync_playwright
 # @File: conftest.py
 # @Time : 2024/1/13 00:42
 # @Email: lihuacai168@gmail.com
+
+
+
+def pytest_addoption(parser):
+    parser.addoption(
+        "--host",
+        action="store",
+        default="http://10.30.76.150:8080/",
+        help="base URL for login page",
+    )
+    logger.info("添加命令行参数 host")
+    parser.addoption("--wtrace" , default= False, action="store_true", help="启用 Playwright 的追踪功能")
+    logger.info("添追踪功能")
 
 
 @pytest.fixture(scope="session")
@@ -33,36 +47,19 @@ def page(pytestconfig):
         browser = p.chromium.launch(headless=False, timeout=5_000)
         context = browser.new_context()
         page = context.new_page()
-        context.tracing.start(screenshots=True, snapshots=True, sources=True)
-        yield page
-        logger.info("page session fixture closing.......")
-        base_url = pytestconfig.getoption("base_url") or "http://119.91.147.215"
-        domain = extract_domain(base_url).replace(".", "_")
-        logger.info("stop tracing...")
-        context.tracing.stop(path=f"{domain}_trace.zip")
-        browser.close()
 
-@pytest.fixture(scope="session")
-def page(pytestconfig):
-    with sync_playwright() as p:
-        logger.info("page session fixture starting....")
-        browser = p.chromium.launch(headless=True, timeout=5_000)
-        context = browser.new_context()
-        page = context.new_page()
-
-        if pytestconfig.getoption("trace"):
+        if pytestconfig.getoption("wtrace"):
             context.tracing.start(screenshots=True, snapshots=True, sources=True)
 
         yield page
 
         logger.info("page session fixture closing.......")
-        base_url = pytestconfig.getoption("base_url") or "http://119.91.147.215"
+        base_url = pytestconfig.getoption("base_url") or "http://10.30.76.150:8080/"
         domain = extract_domain(base_url).replace(".", "_")
 
-        if pytestconfig.getoption("trace"):
+        if pytestconfig.getoption("wtrace"):
             logger.info("stop tracing...")
             context.tracing.stop(path=f"{domain}_trace.zip")
-
         browser.close()
 
 # @pytest.fixture(scope="session")
@@ -83,21 +80,17 @@ def auth_page():
         browser.close()
 
 
-def _login(page, pytestconfig, is_goto_project_detail=False):
+def _login(page, pytestconfig):
     if base_url := pytestconfig.getoption("base_url"):
         logger.info(f"命令行传入参数，base_url={base_url}")
     else:
-        default_url = "http://10.30.76.150:8080/"
+        default_url = "http://10.30.76.150:8080"
         logger.warning(f"没有传入base-url，会使用默认base_url = {default_url}，如果需要使用--base-url=xxx修改")
         base_url = default_url
 
     login_page = LoginPage(page, base_url=base_url)
-
-    login_page.login("admin", "Yanfa@1304")
-    if is_goto_project_detail:
-        logger.info("登录并进入项目详情")
-        login_page.switch2project_base()
-        login_page.enter_project_detail()
+    logger.info("开始登录.......")
+    login_page.login("wwtest", "Supcon@1209")
     return login_page
 
 
@@ -109,22 +102,7 @@ def login(page, pytestconfig):
 
 # 创建一个 pytest fixture 实现登录操作，并设置为session级别，实现共享登录状态
 @pytest.fixture(scope="session")
-def login_and_goto_project_detail(page, pytestconfig):
-    yield _login(page, pytestconfig, is_goto_project_detail=True)
+def login_goto_project(page, pytestconfig):
+    yield _login(page, pytestconfig)
 
 
-def pytest_addoption(parser):
-    parser.addoption(
-        "--host",
-        action="store",
-        default="http://10.30.76.150:8080/",
-        help="base URL for login page",
-    )
-    logger.info("添加命令行参数 host")
-    parser.addoption(
-        "--trace",
-        action="store_true",
-        default=False,
-        help="Enable tracing"
-    )
-    # parser.addoption("--base-url", action="store", default="http://119.91.147.215", help="base URL for login page")
