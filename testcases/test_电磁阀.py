@@ -7,15 +7,18 @@ import pytest
 
 from pages.电池阀 import  *
 
-
+def navigate_to_solenoid_diagnosis_page(login_goto_project):
+    """导航到电磁阀在线诊断页面，并返回框架定位符"""
+    with allure.step("导航到电磁阀在线诊断页面"):
+        login_goto_project.page.locator("span[title='电磁阀诊断']").click()
+        login_goto_project.page.locator("span[title='电磁阀在线诊断']").click()
+        frame_locator = login_goto_project.page.frame_locator("iframe[name=\"supos-tab-framework-1\"]")
+    return frame_locator
 
 @pytest.mark.parametrize("algorithm_name", ["乙烯装置", "06XSOV_11001_5", "机器学习分类算法", "正常"])
 @allure.step("电磁阀在线诊断-查询导出")
 def test_set_management(pytestconfig, login_goto_project, algorithm_name):
-    login_goto_project.page.locator("span[title='电磁阀诊断']").click()
-    login_goto_project.page.locator("span[title='电磁阀在线诊断']").click()
-    frame_locator = login_goto_project.page.frame_locator("iframe[name=\"supos-tab-framework-1\"]")
-
+    frame_locator = navigate_to_solenoid_diagnosis_page(login_goto_project)
     solenoid_search(frame_locator,algorithm_name)
     download_report(frame_locator,login_goto_project.page)
 
@@ -23,10 +26,7 @@ def test_set_management(pytestconfig, login_goto_project, algorithm_name):
 @allure.feature("电磁阀在线诊断")
 @allure.step("电磁阀在线诊断-设置算法")
 def test_set_algorithm(pytestconfig, login_goto_project):
-    login_goto_project.page.locator("span[title='电磁阀诊断']").click()
-    login_goto_project.page.locator("span[title='电磁阀在线诊断']").click()
-    with allure.step("进入frame"):
-        frame_locator = login_goto_project.page.frame_locator("iframe[name=\"supos-tab-framework-1\"]")
+    frame_locator = navigate_to_solenoid_diagnosis_page(login_goto_project)
 
     with allure.step("校验列表名称存在"):
         check_table_header(frame_locator)
@@ -46,9 +46,7 @@ def test_set_algorithm(pytestconfig, login_goto_project):
 
 @allure.step("电磁阀在线诊断-详情页面")
 def test_detail_page(pytestconfig, login_goto_project):
-    login_goto_project.page.locator("span[title='电磁阀诊断']").click()
-    login_goto_project.page.locator("span[title='电磁阀在线诊断']").click()
-    frame_locator = login_goto_project.page.frame_locator("iframe[name=\"supos-tab-framework-1\"]")
+    frame_locator = navigate_to_solenoid_diagnosis_page(login_goto_project)
     with allure.step("点击第二个详情"):
         logger.info("点击详情")
         frame_locator.locator("(//a[@class='model-pages-solenoid-components-solenoid-table-index-linkStyle'])[2]").click()
