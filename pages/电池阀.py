@@ -64,6 +64,7 @@ def select_important_setting(frame_locator):
     with allure.step("设置重要度B"):
         frame_locator.get_by_role("button", name="设置重要度").click()
         frame_locator.get_by_role("menuitem", name="B").locator("a").click()
+    frame_locator.locator(".model-pages-header-comp-index-breadcrumbsLinkStyle").click()
 
 
 

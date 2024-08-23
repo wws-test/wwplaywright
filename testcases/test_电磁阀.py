@@ -9,6 +9,15 @@ from pages.电池阀 import  *
 
 
 
+@pytest.mark.parametrize("algorithm_name", ["乙烯装置", "06XSOV_11001_5", "机器学习分类算法", "正常"])
+@allure.step("电磁阀在线诊断-查询导出")
+def test_set_management(pytestconfig, login_goto_project, algorithm_name):
+    login_goto_project.page.locator("span[title='电磁阀诊断']").click()
+    login_goto_project.page.locator("span[title='电磁阀在线诊断']").click()
+    frame_locator = login_goto_project.page.frame_locator("iframe[name=\"supos-tab-framework-1\"]")
+
+    solenoid_search(frame_locator,algorithm_name)
+    download_report(frame_locator,login_goto_project.page)
 
 
 @allure.feature("电磁阀在线诊断")
@@ -33,16 +42,6 @@ def test_set_algorithm(pytestconfig, login_goto_project):
         select_important_setting(frame_locator)
 
 
-
-
-@pytest.mark.parametrize("algorithm_name", ["乙烯装置", "06XSOV_11001_5", "机器学习分类算法", "正常"])
-@allure.step("电磁阀在线诊断-查询导出")
-def test_set_management(pytestconfig, login_goto_project, algorithm_name):
-    login_goto_project.page.locator("span[title='电磁阀诊断']").click()
-    login_goto_project.page.locator("span[title='电磁阀在线诊断']").click()
-    frame_locator = login_goto_project.page.frame_locator("iframe[name=\"supos-tab-framework-1\"]")
-    solenoid_search(frame_locator,algorithm_name)
-    download_report(frame_locator,login_goto_project.page)
 
 
 @allure.step("电磁阀在线诊断-详情页面")

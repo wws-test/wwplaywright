@@ -35,7 +35,8 @@ def extract_domain(url_string):
 def page(pytestconfig):
     with sync_playwright() as p:
         logger.info("page session fixture starting....")
-        browser = p.chromium.launch( headless=False, timeout=5_000) #slow_mo=500,
+        # browser = p.chromium.launch( headless=False, timeout=5_000) #slow_mo=500,
+        browser = p.chromium.launch( headless=True, timeout=5_000,args=['--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36']) #slow_mo=500,
         context = browser.new_context(viewport={ 'width': 1920, 'height': 1080 })
         page = context.new_page()
         context.tracing.start(screenshots=True, snapshots=True, sources=True)
@@ -64,7 +65,7 @@ def auth_page():
 
 
 def _login(page, pytestconfig):
-    if base_url := pytestconfig.getoption("base_url"):
+    if base_url := pytestconfig.getoption("host"):
         logger.info(f"命令行传入参数，base_url={base_url}")
     else:
         default_url = "http://10.30.76.150:8080"
