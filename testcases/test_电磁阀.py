@@ -18,6 +18,10 @@ def test_set_algorithm(pytestconfig, login_goto_project):
     login_goto_project.page.locator("span[title='电磁阀在线诊断']").click()
     with allure.step("进入frame"):
         frame_locator = login_goto_project.page.frame_locator("iframe[name=\"supos-tab-framework-1\"]")
+
+    with allure.step("校验列表名称存在"):
+        check_table_header(frame_locator)
+
     with allure.step("点击饼图"):
         frame_locator.locator("canvas").click()
     with allure.step("点击设置表头"):
@@ -49,6 +53,10 @@ def test_detail_page(pytestconfig, login_goto_project):
     with allure.step("点击第二个详情"):
         logger.info("点击详情")
         frame_locator.locator("(//a[@class='model-pages-solenoid-components-solenoid-table-index-linkStyle'])[2]").click()
+        self_analysis_page(frame_locator)
+        device_details_page(frame_locator)
+        real_time_data(frame_locator)
+        export_report(frame_locator,login_goto_project.page)
 
 
 

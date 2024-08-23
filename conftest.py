@@ -35,7 +35,7 @@ def extract_domain(url_string):
 def page(pytestconfig):
     with sync_playwright() as p:
         logger.info("page session fixture starting....")
-        browser = p.chromium.launch(headless=False, timeout=5_000)
+        browser = p.chromium.launch( headless=False, timeout=5_000) #slow_mo=500,
         context = browser.new_context(viewport={ 'width': 1920, 'height': 1080 })
         page = context.new_page()
         context.tracing.start(screenshots=True, snapshots=True, sources=True)
