@@ -21,7 +21,7 @@ def select_setting_management(frame_locator):
     with allure.step("非选中设置重要度"):
         frame_locator.get_by_role("button", name="设置重要度").click()
         # 等待元素出现
-        order_sent = frame_locator.get_by_text("请先选择内容，再点击“设置重要度”")
+        order_sent = frame_locator.get_by_text("请先选择内容，再点击\"设置重要度\"")
         order_sent.wait_for()
         assert_element_exists(order_sent)
     with allure.step("全选取消"):
@@ -35,11 +35,12 @@ def check_table_header(frame_locator):
     logger.info("校验表头")
     try:
         expect(frame_locator.get_by_text("装置名称")).to_be_visible()
-        expect(frame_locator.get_by_text("调节阀名称")).to_be_visible()
-        expect(frame_locator.get_by_text("重要程度")).to_be_visible()
-        expect(frame_locator.get_by_text("工况")).to_be_visible()
+        expect(frame_locator.get_by_text("回路", exact=True)).to_be_visible()
+        expect(frame_locator.get_by_text("类型", exact=True)).to_be_visible()
+        expect(frame_locator.get_by_text("重要度", exact=True)).to_be_visible()
         expect(frame_locator.get_by_text("描述", exact=True)).to_be_visible()
-        expect(frame_locator.get_by_text("诊断结果", exact=True)).to_be_visible()
+        expect(frame_locator.get_by_text("健康度", exact=True)).to_be_visible()
+        expect(frame_locator.get_by_label("诊断结果")).to_be_visible()
         expect(frame_locator.get_by_label("诊断时间")).to_be_visible()
         expect(frame_locator.get_by_label("诊断描述")).to_be_visible()
 
@@ -50,11 +51,11 @@ def check_table_header(frame_locator):
 
 
 @allure.step("选中第一个设置重要度-B")
-def select_important_setting(frame_locator):
+def  select_important_setting(frame_locator):
     frame_locator.locator("(//input[@type='checkbox'])[2]").click()
     with allure.step("设置重要度B"):
         frame_locator.get_by_role("button", name="设置重要度").click()
-        frame_locator.locator("(//div[@class='model-layouts-index-importanceContent']//p)[2]").click()
+        frame_locator.locator("(//span[@class='ant-dropdown-menu-title-content']//a)[3]").click()
 
 
 
@@ -74,9 +75,9 @@ def download_report(frame_locator,page):
 def solenoid_search(frame_locator):
     logger.info("开始搜索")
     try:
-        frame_locator.get_by_placeholder("支持按装置名称、调节阀名称、描述、设备厂商、设备类型、诊断结果、诊断描述的模糊查询").click()
+        frame_locator.get_by_placeholder("支持按装置名称、回路、描述、类型、诊断结果、诊断描述字段的模糊查询").click()
 
-        frame_locator.get_by_placeholder("支持按装置名称、调节阀名称、描述、设备厂商、设备类型、诊断结果、诊断描述的模糊查询").fill("Azbil Corporation")
+        frame_locator.get_by_placeholder("支持按装置名称、回路、描述、类型、诊断结果、诊断描述字段的模糊查询").fill("SingleLoopVa")
         frame_locator.locator("button").nth(2).click()
     except Exception as e:
         logger.error(f"搜索时发生错误: {e}")
@@ -85,15 +86,14 @@ def solenoid_search(frame_locator):
 def select_table_header(frame_locator):
     logger.info("选中表头")
     try:
-        frame_locator.locator('.model-pages-home-table-index-operate').click()
-        frame_locator.locator("(//span[@class='ant-checkbox']//input)[1]").click()
-        frame_locator.locator("(//span[@class='ant-checkbox']//input)[2]").click()
-        frame_locator.locator("(//span[@class='ant-checkbox']//input)[3]").click()
-        frame_locator.locator("(//span[@class='ant-checkbox']//input)[4]").click()
-        frame_locator.locator("(//span[@class='ant-checkbox']//input)[5]").click()
-        frame_locator.locator("(//span[@class='ant-checkbox']//input)[6]").click()
-        frame_locator.locator("(//span[@class='ant-checkbox']//input)[7]").click()
+        frame_locator.locator(".model-pages-equipment-loop-components-equipment-table-index-operator_style").click()
+        frame_locator.get_by_label("控制性能").check()
+        frame_locator.get_by_label("仪表健康").check()
+        frame_locator.get_by_label("振荡和非线性").check()
         frame_locator.get_by_role("button", name="确 定").click()
+        frame_locator.locator(".model-pages-equipment-loop-components-equipment-table-index-operator_style").click()
+        frame_locator.get_by_role("button", name="重 置").click()
+
 
 
     except Exception as e:
@@ -104,7 +104,7 @@ def select_table_header(frame_locator):
 def unselect_table_header(frame_locator):
     logger.info("取消选中表头")
     try:
-        frame_locator.locator('.model-pages-solenoid-components-solenoid-table-index-operator_style').click()
+        frame_locator.locator(".model-pages-equipment-loop-components-equipment-table-index-operator_style").click()
         frame_locator.get_by_role("button", name="重 置").click()
     except Exception as e:
         logger.error(f"取消选中表头时发生错误: {e}")
@@ -113,24 +113,16 @@ def unselect_table_header(frame_locator):
 def export_report(iframe_locator,page):
     logger.info("导出诊断报告")
     try:
-        iframe_locator.locator("(//div[@class='ant-tabs-tab-btn'])[3]").click() # 切换到历史诊断页面
-        iframe_locator.locator("(//div[@class='model-pages-detail-history-index-table_operate']//a)[1]").click() #点击具体详情
-        iframe_locator.get_by_text("点击扫二维码").click()
-        iframe_locator.get_by_text("×").click()
+        iframe_locator.get_by_text("历史诊断").click() # 切换到历史诊断页面
+        iframe_locator.locator("(//a[@class='model-pages-history-diagnosis-index-linkStyle'])[1]").click()
         iframe_locator.get_by_text("有效诊断").click()
         iframe_locator.get_by_role("button", name="确 定").click()
         iframe_locator.get_by_text("无效诊断").click()
         iframe_locator.get_by_role("button", name="确 定").click()
-        iframe_locator.get_by_label("执行压力值").uncheck()
-        iframe_locator.get_by_label("供气压力值").uncheck()
-        iframe_locator.get_by_label("阀前压力").uncheck()
-        iframe_locator.get_by_label("阀后压力").uncheck()
-        iframe_locator.get_by_label("介质温度").uncheck()
-        iframe_locator.get_by_label("阀位设定值").uncheck()
-        iframe_locator.get_by_label("阀位行程值").uncheck()
-        iframe_locator.get_by_label("SV").uncheck()
-        iframe_locator.get_by_label("PV").uncheck()
-        iframe_locator.get_by_label("MV").uncheck()
+        iframe_locator.get_by_text("四小时").click()
+        iframe_locator.get_by_text("一天").click()
+        iframe_locator.get_by_text("一周").click()
+        iframe_locator.get_by_text("一月").click()
         with page.expect_download() as download_info:
             iframe_locator.get_by_role("button", name="导出报告").click()
         download = download_info.value
@@ -139,24 +131,7 @@ def export_report(iframe_locator,page):
     except Exception as e:
         logger.error(f"导出诊断报告时发生错误: {e}")
 
-@allure.step("设备详情页面")
-def device_details_page(frame_locator):
-    logger.info("进入设备详情页面")
-    try:
-        frame_locator.get_by_role("tab", name="设备详情").click()
-        frame_locator.get_by_role("button", name="plus 添加事件").click()
-        frame_locator.get_by_role("button", name="取 消").click()
-        frame_locator.get_by_role("button", name="eye 事件预览").click()
-        frame_locator.get_by_role("button", name="关 闭").click()
-        frame_locator.get_by_label("流量模型偏差").uncheck()
-        frame_locator.get_by_label("跟踪性能").uncheck()
-        frame_locator.get_by_label("粘滞程度综合指标").uncheck()
-        frame_locator.get_by_label("健康度").uncheck()
-        frame_locator.get_by_text("点击扫二维码").click()
-        frame_locator.get_by_text("×").click()
 
-    except Exception as e:
-        logger.error(f"进入设备详情页面时发生错误: {e}")
 
 @allure.step("自分析页面")
 def self_analysis_page(frame_locator):
@@ -182,18 +157,11 @@ def self_analysis_page(frame_locator):
 def real_time_data(iframe_locator):
     logger.info("进入实时数据页面")
     try:
-        iframe_locator.get_by_role("tab", name="实时数据").click()
+        iframe_locator.get_by_text("实时数据").click()
+        iframe_locator.get_by_text("实时", exact=True).click()
+        iframe_locator.get_by_text("四小时").click()
         iframe_locator.get_by_text("一天").click()
         iframe_locator.get_by_text("一周").click()
         iframe_locator.get_by_text("一月").click()
-        iframe_locator.get_by_label("供气压力值").uncheck()
-        iframe_locator.get_by_label("阀前压力").uncheck()
-        iframe_locator.get_by_label("阀后压力").uncheck()
-        iframe_locator.get_by_label("介质温度").uncheck()
-        iframe_locator.get_by_label("阀位设定值").uncheck()
-        iframe_locator.get_by_label("阀位行程值").uncheck()
-        iframe_locator.get_by_label("SV").uncheck()
-        iframe_locator.get_by_label("PV").uncheck()
-        iframe_locator.get_by_label("MV").uncheck()
     except Exception as e:
         logger.error(f"进入实时数据页面时发生错误: {e}")

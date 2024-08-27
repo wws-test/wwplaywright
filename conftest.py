@@ -68,7 +68,7 @@ def _login(page, pytestconfig):
     if base_url := pytestconfig.getoption("host"):
         logger.info(f"命令行传入参数，base_url={base_url}")
     else:
-        default_url = "http://10.30.76.150:8080"
+        default_url = "http://10.30.76.48:8080"
         logger.warning(f"没有传入base-url，会使用默认base_url = {default_url}，如果需要使用--base-url=xxx修改")
         base_url = default_url
 
@@ -89,11 +89,24 @@ def login(page, pytestconfig):
 def login_goto_project(page, pytestconfig):
     yield _login(page, pytestconfig)
 
+
+# @pytest.fixture(scope="module", autouse=True)
+# def fresh_page(page, request):
+#     logger.info("准备刷新....")
+#
+#     def fin():
+#         logger.info("开始刷新....")
+#         page.locator("//div[@id='root']/div[1]/section[1]/header[1]/div[1]/div[1]").click()
+#
+#     request.addfinalizer(fin)
+
+
+
 def pytest_addoption(parser):
     parser.addoption(
         "--host",
         action="store",
-        default="http://10.30.76.150:8080/",
+        default="http://10.30.76.48:8080/",
         help="base URL for login page",
     )
     logger.info("添加命令行参数 host")

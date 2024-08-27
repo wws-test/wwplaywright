@@ -74,9 +74,9 @@ def download_report(frame_locator,page):
 def solenoid_search(frame_locator):
     logger.info("开始搜索")
     try:
-        frame_locator.get_by_placeholder("支持按装置名称、调节阀名称、描述、设备厂商、设备类型、诊断结果、诊断描述的模糊查询").click()
+        frame_locator.get_by_placeholder("支持按装置名称、流量计名称、描述、设备厂商、设备类型、诊断结果、诊断描述的模糊查询").click()
 
-        frame_locator.get_by_placeholder("支持按装置名称、调节阀名称、描述、设备厂商、设备类型、诊断结果、诊断描述的模糊查询").fill("Azbil Corporation")
+        frame_locator.get_by_placeholder("支持按装置名称、流量计名称、描述、设备厂商、设备类型、诊断结果、诊断描述的模糊查询").fill("IFC 300")
         frame_locator.locator("button").nth(2).click()
     except Exception as e:
         logger.error(f"搜索时发生错误: {e}")

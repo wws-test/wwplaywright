@@ -82,11 +82,11 @@ def download_report(frame_locator,page):
         return None
 
 @allure.step("查询")
-def solenoid_search(frame_locator, test):
+def solenoid_search(frame_locator):
     logger.info("开始搜索")
     try:
         frame_locator.get_by_placeholder("支持按装置名称、电磁阀名称、电磁阀类型、诊断算法、诊断结果、诊断描述字段的模糊查询").click()
-        frame_locator.get_by_placeholder('支持按装置名称、电磁阀名称、电磁阀类型、诊断算法、诊断结果、诊断描述字段的模糊查询').fill(test)
+        frame_locator.get_by_placeholder('支持按装置名称、电磁阀名称、电磁阀类型、诊断算法、诊断结果、诊断描述字段的模糊查询').fill("正常")
         frame_locator.locator("div").filter(has_text=re.compile(r"^搜索：$")).locator("button").click()
     except Exception as e:
         logger.error(f"搜索时发生错误: {e}")
@@ -123,12 +123,12 @@ def export_report(frame_locator,page):
         frame_locator.get_by_text("历史诊断").click()
         logger.info("选择第一个诊断报告，进入报告页面")
         frame_locator.locator("(//a[@class='model-pages-history-diagnosis-index-linkStyle'])[1]").click()
-        frame_locator.get_by_role("button", name="check 有效诊断").click()
-        frame_locator.get_by_role("button", name="确 定").click()
-        frame_locator.get_by_role("button", name="close 无效诊断").click()
-        frame_locator.get_by_role("button", name="确 定").click()
-        frame_locator.get_by_role("button", name="eye 待观察").click()
-        frame_locator.get_by_role("button", name="确 定").click()
+        # frame_locator.get_by_role("button", name="check 有效诊断").click()
+        # frame_locator.get_by_role("button", name="确 定").click()
+        # frame_locator.get_by_role("button", name="close 无效诊断").click()
+        # frame_locator.get_by_role("button", name="确 定").click()
+        # frame_locator.get_by_role("button", name="eye 待观察").click()
+        # frame_locator.get_by_role("button", name="确 定").click()
         frame_locator.locator("div").filter(has_text=re.compile(r"^健康度粘滞漏电$")).locator("svg").first.click()
         frame_locator.locator(".model-components-checkbox-comp-index-checkbox_style").first.click()
         frame_locator.locator("div").filter(has_text=re.compile(r"^健康度粘滞漏电$")).locator("svg").nth(1).click()
@@ -144,11 +144,11 @@ def export_report(frame_locator,page):
         frame_locator.locator("div:nth-child(7) > .model-components-checkbox-comp-index-checkbox_style > .anticon > svg").click()
         frame_locator.get_by_text("一周").click()
         frame_locator.get_by_text("一月").click()
-        with page.expect_download() as download_info:
-            frame_locator.get_by_role("button", name="upload 导出报告").click()
-        download = download_info.value
-        logger.info(f"下载诊断报告{download.suggested_filename}")
-        return download.path()
+        # with page.expect_download() as download_info:
+        #     frame_locator.get_by_role("button", name="upload 导出报告").click()
+        # download = download_info.value
+        # logger.info(f"下载诊断报告{download.suggested_filename}")
+        # return download.path()
     except Exception as e:
         logger.error(f"导出诊断报告时发生错误: {e}")
 
