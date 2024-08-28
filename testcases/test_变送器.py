@@ -32,8 +32,6 @@ def test_set_algorithm(pytestconfig, login_goto_project):
     with allure.step("校验列表名称存在"):
         check_table_header(frame_locator)
 
-    with allure.step("点击设置表头"):
-        select_table_header(frame_locator)
     with allure.step("设置算法"):
         select_setting_management(frame_locator)
         select_important_setting(frame_locator)

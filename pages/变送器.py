@@ -81,20 +81,6 @@ def solenoid_search(frame_locator):
     except Exception as e:
         logger.error(f"搜索时发生错误: {e}")
 
-@allure.step("选中表头")
-def select_table_header(frame_locator):
-    logger.info("选中表头")
-    try:
-        frame_locator.locator('.model-pages-home-table-index-operate').click()
-        frame_locator.locator("(//span[@class='ant-checkbox']//input)[1]").click()
-        frame_locator.locator("(//span[@class='ant-checkbox']//input)[2]").click()
-        frame_locator.locator("(//span[@class='ant-checkbox']//input)[3]").click()
-        frame_locator.locator("(//span[@class='ant-checkbox']//input)[4]").click()
-        frame_locator.locator("(//span[@class='ant-checkbox']//input)[5]").click()
-        frame_locator.locator("(//span[@class='ant-checkbox']//input)[6]").click()
-        frame_locator.locator("(//span[@class='ant-checkbox']//input)[7]").click()
-        frame_locator.get_by_role("button", name="确 定").click()
-
 
     except Exception as e:
         logger.error(f"选中表头时发生错误: {e}")

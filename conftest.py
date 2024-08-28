@@ -35,8 +35,8 @@ def extract_domain(url_string):
 def page(pytestconfig):
     with sync_playwright() as p:
         logger.info("page session fixture starting....")
-        browser = p.chromium.launch( headless=False, timeout=5_000) #slow_mo=500,
-        # browser = p.chromium.launch( headless=True, timeout=5_000,args=['--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36']) #slow_mo=500,
+        # browser = p.chromium.launch( headless=False, timeout=5_000) #slow_mo=500,
+        browser = p.chromium.launch( headless=True, timeout=5_000,args=['--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36']) #slow_mo=500,
         context = browser.new_context(viewport={ 'width': 1920, 'height': 1080 })
         page = context.new_page()
         context.tracing.start(screenshots=True, snapshots=True, sources=True)
@@ -89,16 +89,6 @@ def login(page, pytestconfig):
 def login_goto_project(page, pytestconfig):
     yield _login(page, pytestconfig)
 
-
-# @pytest.fixture(scope="module", autouse=True)
-# def fresh_page(page, request):
-#     logger.info("准备刷新....")
-#
-#     def fin():
-#         logger.info("开始刷新....")
-#         page.locator("//div[@id='root']/div[1]/section[1]/header[1]/div[1]/div[1]").click()
-#
-#     request.addfinalizer(fin)
 
 
 
