@@ -35,7 +35,7 @@ def check_table_header(frame_locator):
     logger.info("校验表头")
     try:
         expect(frame_locator.get_by_text("装置名称")).to_be_visible()
-        expect(frame_locator.get_by_text("调节阀名称")).to_be_visible()
+        expect(frame_locator.get_by_text("变送器名称")).to_be_visible()
         expect(frame_locator.get_by_text("重要程度")).to_be_visible()
         expect(frame_locator.get_by_text("工况")).to_be_visible()
         expect(frame_locator.get_by_text("描述", exact=True)).to_be_visible()
@@ -74,9 +74,9 @@ def download_report(frame_locator,page):
 def solenoid_search(frame_locator):
     logger.info("开始搜索")
     try:
-        frame_locator.get_by_placeholder("支持按装置名称、调节阀名称、描述、设备厂商、设备类型、诊断结果、诊断描述的模糊查询").click()
+        frame_locator.get_by_placeholder("支持按装置名称、变送器名称、描述、设备厂商、设备类型、诊断结果、诊断描述的模糊查询").click()
 
-        frame_locator.get_by_placeholder("支持按装置名称、调节阀名称、描述、设备厂商、设备类型、诊断结果、诊断描述的模糊查询").fill("Azbil Corporation")
+        frame_locator.get_by_placeholder("支持按装置名称、变送器名称、描述、设备厂商、设备类型、诊断结果、诊断描述的模糊查询").fill("EJA-NEXT")
         frame_locator.locator("button").nth(2).click()
     except Exception as e:
         logger.error(f"搜索时发生错误: {e}")
@@ -121,16 +121,6 @@ def export_report(iframe_locator,page):
         iframe_locator.get_by_role("button", name="确 定").click()
         iframe_locator.get_by_text("无效诊断").click()
         iframe_locator.get_by_role("button", name="确 定").click()
-        iframe_locator.get_by_label("执行压力值").uncheck()
-        iframe_locator.get_by_label("供气压力值").uncheck()
-        iframe_locator.get_by_label("阀前压力").uncheck()
-        iframe_locator.get_by_label("阀后压力").uncheck()
-        iframe_locator.get_by_label("介质温度").uncheck()
-        iframe_locator.get_by_label("阀位设定值").uncheck()
-        iframe_locator.get_by_label("阀位行程值").uncheck()
-        iframe_locator.get_by_label("SV").uncheck()
-        iframe_locator.get_by_label("PV").uncheck()
-        iframe_locator.get_by_label("MV").uncheck()
         with page.expect_download() as download_info:
             iframe_locator.get_by_role("button", name="导出报告").click()
         download = download_info.value
@@ -148,10 +138,8 @@ def device_details_page(frame_locator):
         frame_locator.get_by_role("button", name="取 消").click()
         frame_locator.get_by_role("button", name="eye 事件预览").click()
         frame_locator.get_by_role("button", name="关 闭").click()
-        frame_locator.get_by_label("流量模型偏差").uncheck()
-        frame_locator.get_by_label("跟踪性能").uncheck()
-        frame_locator.get_by_label("粘滞程度综合指标").uncheck()
-        frame_locator.get_by_label("健康度").uncheck()
+        frame_locator.get_by_label("引压管堵塞综合指标").uncheck()
+        frame_locator.get_by_label("设备健康度").uncheck()
         frame_locator.get_by_text("点击扫二维码").click()
         frame_locator.get_by_text("×").click()
 
@@ -183,17 +171,9 @@ def real_time_data(iframe_locator):
     logger.info("进入实时数据页面")
     try:
         iframe_locator.get_by_role("tab", name="实时数据").click()
+        iframe_locator.get_by_text("实时", exact=True).click()
         iframe_locator.get_by_text("一天").click()
         iframe_locator.get_by_text("一周").click()
         iframe_locator.get_by_text("一月").click()
-        iframe_locator.get_by_label("供气压力值").uncheck()
-        iframe_locator.get_by_label("阀前压力").uncheck()
-        iframe_locator.get_by_label("阀后压力").uncheck()
-        iframe_locator.get_by_label("介质温度").uncheck()
-        iframe_locator.get_by_label("阀位设定值").uncheck()
-        iframe_locator.get_by_label("阀位行程值").uncheck()
-        iframe_locator.get_by_label("SV").uncheck()
-        iframe_locator.get_by_label("PV").uncheck()
-        iframe_locator.get_by_label("MV").uncheck()
     except Exception as e:
         logger.error(f"进入实时数据页面时发生错误: {e}")

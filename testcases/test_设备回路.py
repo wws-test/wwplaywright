@@ -10,6 +10,7 @@ def navigate_to_solenoid_diagnosis_page(login_goto_project):
         login_goto_project.page.get_by_text("设备回路诊断").click()
         login_goto_project.page.get_by_text("流量回路诊断").click()
         frame_locator = login_goto_project.page.frame_locator("iframe[name=\"supos-tab-framework-1\"]")
+        frame_locator.get_by_text("设备回路在线诊断").click() # 点击返回按钮
     return frame_locator
 
 @allure.step("设备回路在线诊断-查询导出")
@@ -44,6 +45,8 @@ def test_detail_page(pytestconfig, login_goto_project):
         frame_locator.locator("(//a[@class='model-pages-equipment-loop-components-equipment-table-index-linkStyle'])[2]").click()
         real_time_data(frame_locator)
         export_report(frame_locator,login_goto_project.page)
+
+
 
 
 
