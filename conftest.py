@@ -36,7 +36,7 @@ def page(pytestconfig):
     with sync_playwright() as p:
         logger.info("page session fixture starting....")
         # browser = p.chromium.launch( headless=False, timeout=5_000) #slow_mo=500,
-        browser = p.chromium.launch( headless=True, timeout=5_000,args=['--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36']) #slow_mo=500,
+        browser = p.chromium.launch( headless=False, timeout=5_000,args=['--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36']) #slow_mo=500,
         context = browser.new_context(viewport={ 'width': 1920, 'height': 1080 })
         page = context.new_page()
         context.tracing.start(screenshots=True, snapshots=True, sources=True)
@@ -68,13 +68,13 @@ def _login(page, pytestconfig):
     if base_url := pytestconfig.getoption("host"):
         logger.info(f"命令行传入参数，base_url={base_url}")
     else:
-        default_url = "http://10.30.76.48:8080"
+        default_url = "http://10.30.76.33:8080"
         logger.warning(f"没有传入base-url，会使用默认base_url = {default_url}，如果需要使用--base-url=xxx修改")
         base_url = default_url
 
     login_page = LoginPage(page, base_url=base_url)
     logger.info("开始登录.......")
-    login_page.login("wwtest", "Supcon@1209")
+    login_page.login("wwtest", "Supcon@1209!")
     return login_page
 
 
@@ -96,7 +96,7 @@ def pytest_addoption(parser):
     parser.addoption(
         "--host",
         action="store",
-        default="http://10.30.76.48:8080/",
+        default="http://10.30.76.33:8080/",
         help="base URL for login page",
     )
     logger.info("添加命令行参数 host")
