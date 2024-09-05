@@ -100,23 +100,57 @@ def test_red_alarm_management(pytestconfig,login_goto_project):
     frame_locator = navigate_to_solenoid_diagnosis_page(login_goto_project)
     login_goto_project.page.get_by_text("辅助检测").click()
     login_goto_project.page.get_by_text("红外温度检测").click()
+    red_point_management(frame_locator,login_goto_project.page)
 
 
 
 
+@allure.step("驾驶舱项目-辅助检测-仪表风露点")
+def test_table_wind_detection(pytestconfig, login_goto_project,):
+    frame_locator = navigate_to_solenoid_diagnosis_page(login_goto_project)
+    login_goto_project.page.get_by_text("辅助检测").click()
+    login_goto_project.page.get_by_text("仪表风露点").click()
+    table_wind_management(frame_locator,login_goto_project.page)
+
+
+@allure.step("驾驶舱项目-辅助检测-接地连接电阻")
+def test_ground_connection_resistance(pytestconfig, login_goto_project,):
+    frame_locator = navigate_to_solenoid_diagnosis_page(login_goto_project)
+    login_goto_project.page.get_by_text("辅助检测").click()
+    login_goto_project.page.get_by_text("接地连接电阻").click()
+    ground_connection_management(frame_locator,login_goto_project.page)
+
+
+@allure.step("驾驶舱项目-辅助检测-接线箱")
+def test_wiring_box(pytestconfig, login_goto_project,):
+    frame_locator = navigate_to_solenoid_diagnosis_page(login_goto_project)
+    login_goto_project.page.get_by_text("辅助检测").click()
+    login_goto_project.page.get_by_text("接线箱").click()
+    wiring_box_management(frame_locator,login_goto_project.page)
+
+@allure.step("驾驶舱项目-辅助检测-伴热温度")
+def test_warm_up_page(login_goto_project):
+    frame_locator = navigate_to_solenoid_diagnosis_page(login_goto_project)
+    login_goto_project.page.get_by_text("辅助检测").click()
+    login_goto_project.page.get_by_text("伴热温度").click()
+    warm_water_management(frame_locator,login_goto_project.page)
+
+
+@allure.step("驾驶舱项目-辅助检测-机柜间温湿度监测")
+def test_fresh_page(login_goto_project):
+    frame_locator = navigate_to_solenoid_diagnosis_page(login_goto_project)
+    login_goto_project.page.get_by_text("辅助检测").click()
+    login_goto_project.page.get_by_text("机柜间温湿度监测").click()
+    air_quality_management(frame_locator)
 
 
 
-
-
-
-
-
-
-
-
-
-
+@allure.step("驾驶舱项目-辅助检测-机柜温湿度监测")
+def test_air_quality_management(login_goto_project):
+    frame_locator = navigate_to_solenoid_diagnosis_page(login_goto_project)
+    login_goto_project.page.get_by_text("辅助检测").click()
+    login_goto_project.page.get_by_text("机柜温湿度监测").click()
+    Temperature_management(frame_locator,login_goto_project.page)
 
 
 

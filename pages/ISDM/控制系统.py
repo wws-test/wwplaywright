@@ -128,11 +128,112 @@ def device_online_status_management(frame_locator_3: Page, page: Page):
 
 @allure.step("现场仪表-设备在线状态监测")
 def fixed_alarm_management(frame_locator_3: Page, page: Page):
-    with page.expect_download() as download_info:
-        frame_locator_3.get_by_role("button", name="download 导出").click()
-        download = download_info.value
-        logger.info(f"下载诊断报告{download.suggested_filename}")
+
     frame_locator_3.get_by_text("实时报警").click()
     frame_locator_3.get_by_text("历史报警").click()
     frame_locator_3.get_by_text("搁置配置").click()
     frame_locator_3.get_by_role("tab", name="设备").click()
+
+@allure.step("辅助检测-红外温度检测")
+def red_point_management(frame_locator_3: Page, page: Page):
+    with page.expect_download() as download_info:
+        frame_locator_3.get_by_role("button", name="download 导出").click()
+    download = download_info.value
+    logger.info(f"下载诊断报告{download.suggested_filename}")
+    frame_locator_3.locator(".ant-picker").click()
+    frame_locator_3.locator("div").filter(has_text=re.compile(r"^检测时间：$")).nth(1).click()
+    frame_locator_3.get_by_text("检测时间：搜索重置").click()
+    frame_locator_3.get_by_role("button", name="search 搜索").click()
+    frame_locator_3.get_by_role("button", name="clear 重置").click()
+
+    frame_locator_3.locator("._list-handle_1s7ne_1 > span:nth-child(2) > span").first.click()
+    frame_locator_3.get_by_text("取 消确 定").click()
+    frame_locator_3.get_by_role("button", name="取 消").click()
+    frame_locator_3.locator("._list-handle_1s7ne_1 > span:nth-child(2) > span").first.click()
+    frame_locator_3.get_by_label("Close", exact=True).click()
+
+@allure.step("辅助检测-仪表风露点")
+def table_wind_management(frame2: Page, page: Page):
+    with page.expect_download() as download_info:
+        frame2.get_by_role("button", name="download 导出").click()
+    download = download_info.value
+    logger.info(f"下载诊断报告{download.suggested_filename}")
+    frame2.get_by_role("button", name="plus-circle 新增").click()
+    frame2.get_by_label("出口露点").click()
+    frame2.get_by_label("出口露点").fill("50")
+    frame2.get_by_label("出口杂质").click()
+    frame2.get_by_label("出口杂质").fill("222")
+    frame2.get_by_role("textbox").nth(4).click()
+    frame2.get_by_text("此刻").click()
+    frame2.get_by_role("button", name="取 消", exact=True).click()
+    frame2.get_by_role("button", name="search 搜索").click()
+    frame2.get_by_role("button", name="clear 重置").click()
+
+@allure.step("辅助检测-接地连接电阻")
+def ground_connection_management(frame1: Page, page: Page):
+    with page.expect_download() as download_info:
+        frame1.get_by_role("button", name="download 导出").click()
+        download = download_info.value
+        logger.info(f"下载诊断报告{download.suggested_filename}")
+    frame1.get_by_role("button", name="plus-circle 新增").click()
+    frame1.get_by_label("电阻").click()
+    frame1.get_by_label("电阻").fill("40")
+    frame1.get_by_label("新增").get_by_role("textbox").click()
+    frame1.get_by_text("此刻").click()
+    frame1.locator("(//div[@class='ant-modal-footer']//button)[2]").click()
+    frame1.get_by_role("button", name="search 搜索").click()
+    frame1.get_by_role("button", name="clear 重置").click()
+
+@allure.step("辅助检测-接线箱")
+def wiring_box_management(frame: Page, page: Page):
+    with page.expect_download() as download_info:
+        frame.get_by_role("button", name="download 导出").click()
+        download = download_info.value
+        logger.info(f"下载诊断报告{download.suggested_filename}")
+    frame.get_by_text("历史报警").click()
+    frame.get_by_text("搁置配置").click()
+    frame.get_by_text("报警设备").click()
+    frame.get_by_role("tab", name="设备").click()
+    frame.get_by_text("历史报警").click()
+    frame.get_by_role("button", name="search 搜索").click()
+    frame.get_by_role("button", name="clear 重置").click()
+    frame.locator("div").filter(has_text=re.compile(r"^搜索重置$")).get_by_role("button").nth(2).click()
+    frame.get_by_text("实时状态").click()
+
+@allure.step("辅助检测-伴热温度")
+def  warm_water_management(frame1: Page, page: Page):
+    with page.expect_download() as download_info:
+        frame1.get_by_role("button", name="download 导出").click()
+        download = download_info.value
+        logger.info(f"下载诊断报告{download.suggested_filename}")
+
+    frame1.get_by_role("button", name="search 搜索").click()
+    frame1.get_by_role("button", name="clear 重置").click()
+    frame1.get_by_text("历史报警").click()
+    frame1.get_by_role("button", name="search 搜索").click()
+    frame1.get_by_role("button", name="clear 重置").click()
+    frame1.get_by_text("搁置配置").click()
+    frame1.get_by_role("tab", name="设备").click()
+
+@allure.step("辅助检测-机柜间温湿度监测")
+def  air_quality_management(frame1: Page):
+    frame1.get_by_text("实时列表").click()
+    frame1.get_by_role("button", name="search 搜索").click()
+    frame1.get_by_role("button", name="clear 重置").click()
+    frame1.get_by_text("实时报警").click()
+    frame1.get_by_text("历史报警").click()
+
+@allure.step("辅助检测-机柜温湿度监测")
+def Temperature_management(frame_locator: Page, page: Page):
+    frame_locator.get_by_role("tab", name="工厂模型（装置）").click()
+    frame_locator.get_by_role("tab", name="机柜间").click()
+    frame_locator.get_by_text("实时报警").click()
+    with page.expect_download() as download_info:
+        frame_locator.get_by_role("button", name="download 导出").click()
+    download = download_info.value
+    logger.info(f"下载诊断报告{download.suggested_filename}")
+    frame_locator.get_by_text("历史报警").click()
+    with page.expect_download() as download_info:
+        frame_locator.get_by_role("button", name="download 导出").click()
+        download = download_info.value
+        logger.info(f"下载诊断报告{download.suggested_filename}")
