@@ -75,6 +75,63 @@ def test_workshop4_monitoring(pytestconfig, login_goto_project,):
     select_his_alarm(frame_locator,login_goto_project.page)
 
 
+
+@allure.step("联锁投用率")
+def test_workshop5_monitoring(pytestconfig, login_goto_project,):
+    frame_locator = navigate_to_solenoid_diagnosis_page(login_goto_project)
+    login_goto_project.page.get_by_text("KPI", exact=True).click()
+    login_goto_project.page.get_by_text("联锁投用率").click()
+    select_duo_branch(frame_locator,login_goto_project.page)
+
+
+@allure.step("设备报警KPI")
+def test_workshop6_monitoring(pytestconfig, login_goto_project,):
+    frame_locator = navigate_to_solenoid_diagnosis_page(login_goto_project)
+    login_goto_project.page.get_by_text("KPI", exact=True).click()
+    login_goto_project.page.get_by_text("设备报警KPI").click()
+    select_device_alarm_kpi(frame_locator,login_goto_project.page)
+
+
+@allure.step("厂商KPI")
+def test_workshop7_monitoring(pytestconfig, login_goto_project,):
+    frame_locator = navigate_to_solenoid_diagnosis_page(login_goto_project)
+    login_goto_project.page.get_by_text("KPI", exact=True).click()
+    login_goto_project.page.get_by_text("厂商KPI").click()
+    select_control_system_kpi(frame_locator)
+
+@allure.step("装置KPI")
+def test_workshop8_monitoring(pytestconfig, login_goto_project,):
+    frame_locator = navigate_to_solenoid_diagnosis_page(login_goto_project)
+    login_goto_project.page.get_by_text("KPI", exact=True).click()
+    login_goto_project.page.get_by_text("装置KPI").click()
+    select_device_kpi(frame_locator)
+
+
+
+@allure.step("智能仪表台账统计")
+def test_workshop9_monitoring(pytestconfig, login_goto_project,):
+    frame_locator = navigate_to_solenoid_diagnosis_page(login_goto_project)
+    login_goto_project.page.get_by_text("KPI", exact=True).click()
+    login_goto_project.page.get_by_text("智能仪表台账统计").click()
+    select_smart_meter_statistics(frame_locator,login_goto_project.page)
+
+
+
+@allure.step("数字化巡检")
+def test_workshop10_monitoring(pytestconfig, login_goto_project,):
+    frame_locator = navigate_to_solenoid_diagnosis_page(login_goto_project)
+    login_goto_project.page.get_by_text("KPI", exact=True).click()
+    login_goto_project.page.get_by_text("数字化巡检").click()
+    select_digital_inspection(frame_locator,login_goto_project.page)
+
+
+
+@allure.step("周月报表")
+def test_workshop11_monitoring(pytestconfig, login_goto_project,):
+    frame_locator = navigate_to_solenoid_diagnosis_page(login_goto_project)
+    login_goto_project.page.get_by_text("周月报表").click()
+    select_weekly_monthly_report(frame_locator,login_goto_project.page)
+
 def test_teardown_module(login_goto_project):
     logger.info("fresh_page fixture ending....")
     login_goto_project.page.locator("//div[@id='root']/div[1]/section[1]/header[1]/div[1]/div[1]").click()
