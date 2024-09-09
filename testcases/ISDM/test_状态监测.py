@@ -146,11 +146,58 @@ def test_fresh_page(login_goto_project):
 
 
 @allure.step("驾驶舱项目-辅助检测-机柜温湿度监测")
-def test_air_quality_management(login_goto_project):
+def test_air_jigui_management(login_goto_project):
     frame_locator = navigate_to_solenoid_diagnosis_page(login_goto_project)
     login_goto_project.page.get_by_text("辅助检测").click()
     login_goto_project.page.get_by_text("机柜温湿度监测").click()
     Temperature_management(frame_locator,login_goto_project.page)
+
+
+
+
+@allure.step("驾驶舱项目-辅助检测-仪表电源状态监测")
+def test_air_yibiao_management(login_goto_project):
+    frame_locator = navigate_to_solenoid_diagnosis_page(login_goto_project)
+    login_goto_project.page.get_by_text("辅助检测").click()
+    login_goto_project.page.get_by_text("仪表电源状态监测").click()
+    power_management(frame_locator)
+
+
+@allure.step("驾驶舱项目-辅助检测-环保仪表监测")
+def test_air_huanbao_management(login_goto_project):
+    frame_locator = navigate_to_solenoid_diagnosis_page(login_goto_project)
+    login_goto_project.page.get_by_text("辅助检测").click()
+    login_goto_project.page.get_by_text("环保仪表监测").click()
+    environment_management(frame_locator)
+
+
+
+@allure.step("驾驶舱项目-辅助检测-轴系仪表系统状态监测")
+def test_air_zhouxi_management(login_goto_project):
+    frame_locator = navigate_to_solenoid_diagnosis_page(login_goto_project)
+    login_goto_project.page.get_by_text("辅助检测").click()
+    login_goto_project.page.get_by_text("轴系仪表系统状态监测").click()
+    axis_management(frame_locator)
+
+
+@allure.step("驾驶舱项目-辅助检测-转速系统状态监测")
+def test_air_zhuansu_management(login_goto_project):
+    frame_locator = navigate_to_solenoid_diagnosis_page(login_goto_project)
+    login_goto_project.page.get_by_text("辅助检测").click()
+    login_goto_project.page.get_by_text("转速系统状态监测").click()
+    zhuansu_axis_management(frame_locator)
+
+
+@allure.step("驾驶舱项目-辅助检测-仪控设备主数据偏差监测")
+def test_air_zhuansu_management(login_goto_project):
+    frame_locator = navigate_to_solenoid_diagnosis_page(login_goto_project)
+    login_goto_project.page.get_by_text("辅助检测").click()
+    login_goto_project.page.get_by_text("仪控设备主数据偏差监测").click()
+    piancha_axis_management(frame_locator,login_goto_project.page)
+
+
+
+
 
 
 

@@ -237,3 +237,64 @@ def Temperature_management(frame_locator: Page, page: Page):
         frame_locator.get_by_role("button", name="download 导出").click()
         download = download_info.value
         logger.info(f"下载诊断报告{download.suggested_filename}")
+
+@allure.step("辅助检测-仪表电源状态监测")
+def power_management(frame_locator: Page):
+    frame_locator.get_by_role("tab", name="工厂模型（装置）").click()
+    frame_locator.get_by_role("tab", name="机柜间").click()
+    frame_locator.get_by_text("实时报警").click()
+    frame_locator.get_by_text("历史报警").click()
+    frame_locator.get_by_text("实时状态").click()
+    frame_locator.get_by_text("实时报警").click()
+    frame_locator.get_by_role("button", name="search 搜索").click()
+    frame_locator.get_by_role("button", name="clear 重置").click()
+    frame_locator.get_by_text("历史报警").click()
+    frame_locator.get_by_text("搜索重置").click()
+    frame_locator.get_by_role("button", name="clear 重置").click()
+
+
+@allure.step("辅助检测-环保仪表监测")
+def environment_management(frame_locator: Page):
+    frame_locator.get_by_role("button", name="search 搜索").click()
+    frame_locator.get_by_role("button", name="clear 重置").click()
+    frame_locator.get_by_text("历史报警").click()
+    frame_locator.get_by_role("button", name="search 搜索").click()
+    frame_locator.get_by_role("button", name="clear 重置").click()
+    frame_locator.get_by_text("搁置配置").click()
+    frame_locator.get_by_text("报警设备").click()
+    frame_locator.locator("div").filter(has_text=re.compile(r"^设备$")).first.click()
+
+@allure.step("辅助检测-轴系仪表系统状态监测")
+def axis_management(frame_locator: Page):
+    frame_locator.get_by_role("button", name="search 搜索").click()
+    frame_locator.get_by_role("button", name="clear 重置").click()
+    frame_locator.get_by_text("历史报警").click()
+    frame_locator.get_by_role("button", name="search 搜索").click()
+    frame_locator.get_by_role("button", name="clear 重置").click()
+    frame_locator.get_by_text("搁置配置").click()
+    frame_locator.get_by_text("报警设备").click()
+    frame_locator.locator("div").filter(has_text=re.compile(r"^设备$")).first.click()
+
+@allure.step("辅助检测-转速系统状态监测")
+def zhuansu_axis_management(frame_locator: Page):
+    frame_locator.get_by_role("button", name="search 搜索").click()
+    frame_locator.get_by_role("button", name="clear 重置").click()
+    frame_locator.get_by_text("历史报警").click()
+    frame_locator.get_by_role("button", name="search 搜索").click()
+    frame_locator.get_by_role("button", name="clear 重置").click()
+    frame_locator.get_by_text("搁置配置").click()
+    frame_locator.get_by_text("报警设备").click()
+    frame_locator.locator("div").filter(has_text=re.compile(r"^设备$")).first.click()
+
+
+@allure.step("辅助检测-仪控设备主数据偏差监测")
+def piancha_axis_management(frame_locator: Page, page: Page):
+    with page.expect_download() as download_info:
+        frame_locator.get_by_role("button", name="download 导出").click()
+        download = download_info.value
+        logger.info(f"下载诊断报告{download.suggested_filename}")
+    frame_locator.get_by_text("历史报警").click()
+    with page.expect_download() as download_info:
+        frame_locator.get_by_role("button", name="download 导出").click()
+        download = download_info.value
+        logger.info(f"下载诊断报告{download.suggested_filename}")
