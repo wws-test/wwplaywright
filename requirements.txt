@@ -1,7 +1,7 @@
-pytest-playwright
+allure_python_commons==2.13.5
+Faker==28.4.1
+loguru==0.7.2
+playwright==1.40.0
+pytest==8.3.2
 allure-pytest
-
-pytest~=7.4.4
-playwright~=1.40.0
-loguru~=0.7.2
 pytest-rerunfailures
