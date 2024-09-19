@@ -179,8 +179,25 @@ def real_time_data(frame_locator):
         logger.error(f"进入实时数据页面时发生错误: {e}")
 
 @allure.step("设备详情页面")
-def device_details_page(frame_locator):
+def device_details_page(frame_locator,page):
     logger.info("进入设备详情页面")
+    responses = []
+    def log_response(response):
+        try:
+            if response.status == 200:
+                try:
+                    body = response.json()
+                except ValueError:
+                    body = response.body()  # 如果不是 JSON 格式，获取文本内容
+                responses.append({
+                    'url': response.url,
+                    'status': response.status,
+                    'body': body
+                })
+        except Exception as e:
+            logger.error(f"处理响应时发生错误: {e}")
+
+    page.on("response", log_response)
     try:
         frame_locator.get_by_text("设备详情").click()
         frame_locator.locator("a").filter(has_text="添加事件").click()
@@ -200,7 +217,9 @@ def device_details_page(frame_locator):
 
     except Exception as e:
         logger.error(f"进入设备详情页面时发生错误: {e}")
-
+        for response in responses:
+            logger.error(f"接口返回: URL={response['url']}, 状态={response['status']}, 内容={response['body']}")
+            
 @allure.step("自分析页面")
 def self_analysis_page(frame_locator):
     logger.info("进入自分析页面")

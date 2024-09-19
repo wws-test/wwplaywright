@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  playwright_demo:
+    image: playwright_demo
+    ipc: host
+    volumes:
+      - /opt/playwright/playwright_demo:/app
+    env_file: .env
+    entrypoint: ["xvfb-run","-a","pytest","${TEST_CASES_DIR}","--host=${HOST_URL}"]
+    working_dir: /app
+volumes:
+  allure-results:

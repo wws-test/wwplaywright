@@ -1,11 +1,11 @@
 # 使用指定的Playwright镜像作为基础镜像
-FROM mcr.microsoft.com/playwright/python:v1.40.0-jammy
+FROM registry.cn-hangzhou.aliyuncs.com/sww-123/python:v1.40.0-jammy
 
 # 设定工作目录
 WORKDIR /app
 
 # 将本地代码复制到工作目录
-COPY . /app
+COPY requirements.txt /app
 
 # 配置 pip 使用自定义的 PyPI 镜像源
 #RUN pip install --upgrade pip && \
@@ -24,8 +24,9 @@ RUN apt-get update && apt-get install -y default-jre && \
     tar -zxvf allure-2.13.8.tgz -C /opt/ && \
     ln -s /opt/allure-2.13.8/bin/allure /usr/bin/allure && \
     rm allure-2.13.8.tgz
+
 # 安装项目中需要的依赖
 RUN pip install -r requirements.txt
-
+RUN python -m playwright install chromium
 # 给予pytest运行权限，并设为入口点
 ENTRYPOINT ["pytest"]

@@ -63,3 +63,10 @@ pytest
 ```shell
 allure serve allure-results
 ```
+
+## docker-compose 运行
+```shell
+docker-compose up -e HOST_URL=http://10.30.76.47 -e TEST_CASES_DIR=testcases/APPS
+docker-compose up -e TEST_CASES_DIR=testcases/APPS
+```
+
