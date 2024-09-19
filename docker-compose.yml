@@ -7,7 +7,9 @@ services:
     volumes:
       - /opt/playwright/playwright_demo:/app
     env_file: .env
-    entrypoint: ["xvfb-run","-a","pytest","${TEST_CASES_DIR}","--host=${HOST_URL}"]
+    # entrypoint: ["xvfb-run","pytest","${TEST_CASES_DIR}","--host=${HOST_URL}"]
+    entrypoint: ["/bin/sh", "-c", "xvfb-run -a pytest ${TEST_CASES_DIR} --host=${HOST_URL}"]
     working_dir: /app
+    restart: always
 volumes:
   allure-results:
