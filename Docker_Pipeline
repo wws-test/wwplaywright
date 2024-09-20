@@ -1,0 +1,46 @@
+pipeline {
+    agent any
+    environment {
+        DOCKER_IMAGE = 'playwright_demo'
+        TEST_CASES_DIR = 'testcase/APPS'
+        HOST_URL = 'http://10.30.76.48:8080'
+    }
+    stages {
+        stage('Build & Run Test') {
+            agent {
+                docker {
+                    image "${DOCKER_IMAGE}"
+                    args '--ipc=host -v /opt/playwright/playwright_demo:/app'
+                    reuseNode true
+                }
+            }
+            steps {
+                script {
+                    try {
+                        sh "xvfb-run -a pytest ${TEST_CASES_DIR} --host=${HOST_URL}"
+                        stash name: 'allure-results', includes: 'allure-results/*'
+                        currentBuild.result = 'SUCCESS'
+                    } catch (e) {
+                        stash name: 'allure-results', includes: 'allure-results/*'
+                        currentBuild.result = 'FAILURE'
+                        throw e
+                    }
+                }
+            }
+        }
+    }
+    post {
+        always {
+            unstash 'allure-results'
+            script {
+                allure([
+                    includeProperties: false,
+                    jdk: '',
+                    properties: [],
+                    reportBuildPolicy: 'ALWAYS',
+                    results: [[path: '/opt/playwright/playwright_demo/allure-results']]
+                ])
+            }
+        }
+    }
+}
