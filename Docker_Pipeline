@@ -2,31 +2,17 @@ pipeline {
     agent any
     environment {
         DOCKER_IMAGE = 'playwright_demo'
-        TEST_CASES_DIR = 'testcase/APPS'
+        TEST_CASES_DIR = 'testcases/APPS'
         HOST_URL = 'http://10.30.76.48:8080'
     }
     stages {
         stage('Build & Run Test') {
-            agent {
-                docker {
-                    image "${DOCKER_IMAGE}"
-                    args '--ipc=host -v /opt/playwright/playwright_demo:/app'
-                    reuseNode true
-                }
-            }
-            steps {
-                script {
-                    try {
-                        sh "xvfb-run -a pytest ${TEST_CASES_DIR} --host=${HOST_URL}"
-                        stash name: 'allure-results', includes: 'allure-results/*'
-                        currentBuild.result = 'SUCCESS'
-                    } catch (e) {
-                        stash name: 'allure-results', includes: 'allure-results/*'
-                        currentBuild.result = 'FAILURE'
-                        throw e
+                steps {
+                    withDockerContainer(args: '--ipc=host -v /Users/shengweiwei.SUPCON/AquaProjects/playwright_demo:/app', image: 'playwright_demo') {
+                        sh "/bin/sh -c 'cd /app && xvfb-run -a pytest ${TEST_CASES_DIR} --host=${HOST_URL}'"
                     }
                 }
-            }
+
         }
     }
     post {

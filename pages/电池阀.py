@@ -12,7 +12,7 @@ import allure
 from common.assertion import assert_element_exists
 from log import logger
 from playwright.sync_api import Page, expect
-
+from common.datafake import capture_responses
 
 @allure.step("打开配置管理")
 def select_setting_management(frame_locator):
@@ -58,6 +58,7 @@ def select_algorithm_setting(frame_locator):
     frame_locator.locator(".ant-notification-notice-close").click()
 
 @allure.step("选中第一个设置重要度-A")
+@capture_responses
 def select_important_setting(frame_locator):
     locator = frame_locator.locator("xpath=/html/body/div[1]/section/main/div/div/div[2]/div[2]/div/div/div/div/div/div/div[2]/div/div/div[1]/div[1]/div/label/span/input")
     locator.click()

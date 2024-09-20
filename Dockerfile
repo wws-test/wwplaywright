@@ -28,5 +28,3 @@ RUN apt-get update && apt-get install -y default-jre && \
 # 安装项目中需要的依赖
 RUN pip install -r requirements.txt
 RUN python -m playwright install chromium
-# 给予pytest运行权限，并设为入口点
-ENTRYPOINT ["pytest"]

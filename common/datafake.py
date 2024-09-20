@@ -1,6 +1,6 @@
 from faker import Faker
 import functools
-import logging
+from log import logger
 
 fake = Faker('zh_CN')
 
@@ -38,5 +38,5 @@ def capture_responses(func):
             for response in responses:
                 logger.error(f"接口返回: URL={response['url']}, 状态={response['status']}, 内容={response['body']}")
             raise
-
+ 
     return wrapper

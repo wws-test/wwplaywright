@@ -8,4 +8,6 @@
 
     // 默认使用pylint对Python文件进行静态检查
     "python.linting.pylintEnabled": true,
+    "python.analysis.typeCheckingMode": "basic",
+
 }
