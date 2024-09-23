@@ -163,7 +163,7 @@ def Device_model_configuration (frame_content: Page, page: Page):
 
 
 @allure.step ("机柜间配置")
-def cabinet_operations (frame_content: Page, page: Page):
+def cabinet_room_operations (frame_content: Page, page: Page):
     frame_content.get_by_role ("button", name="plus-circle 新增").click ()
     frame_content.get_by_label ("机柜间名称").click ()
     frame_content.get_by_label ("机柜间名称").fill ("33333")

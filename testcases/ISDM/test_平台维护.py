@@ -65,14 +65,14 @@ def test_field_management(pytestconfig, login_goto_project,):
 def test_device_model_configuration(pytestconfig, login_goto_project,):
     frame_locator = navigate_to_solenoid_diagnosis_page(login_goto_project)
     login_goto_project.page.get_by_text("设备型号配置").click()
-    select_device_ledger(frame_locator,login_goto_project.page)
+    Device_model_configuration(frame_locator,login_goto_project.page)
 
 
 @allure.story("机柜间配置")
 def test_cabinets_configuration(pytestconfig, login_goto_project,):
     frame_locator = navigate_to_solenoid_diagnosis_page(login_goto_project)
     login_goto_project.page.get_by_text("机柜间配置").click()
-    cabinet_operations(frame_locator,login_goto_project.page)
+    cabinet_room_operations(frame_locator,login_goto_project.page)
 
 
 
