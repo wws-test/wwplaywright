@@ -48,7 +48,7 @@ def test_detail_page(pytestconfig, login_goto_project):
     with allure.step("点击第二个详情"):
         logger.info("点击详情")
         frame_locator.locator("(//a[@class='model-pages-solenoid-components-solenoid-table-index-linkStyle'])[2]").click()
-        device_details_page(frame_locator, login_goto_project.page)
+        device_details_page(frame_locator, page=login_goto_project.page)
         real_time_data(frame_locator)
 
 

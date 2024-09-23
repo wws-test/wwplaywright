@@ -10,8 +10,11 @@ def capture_responses(func):
     def wrapper(*args, **kwargs):
         page = kwargs.get('page')
         if not page:
-            raise ValueError("必须提供 'page' 参数")
-
+            login_fixture = kwargs.get('login_goto_project')
+            if login_fixture:
+                page = login_fixture.page  # 假设这里可以获取到 page
+        if not page:
+            raise ValueError("无法获取 'page' 参数")
         responses = []
 
         def log_response(response):
@@ -38,5 +41,5 @@ def capture_responses(func):
             for response in responses:
                 logger.error(f"接口返回: URL={response['url']}, 状态={response['status']}, 内容={response['body']}")
             raise
- 
+
     return wrapper

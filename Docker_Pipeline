@@ -17,15 +17,8 @@ pipeline {
     }
     post {
         always {
-            unstash 'allure-results'
-            script {
-                allure([
-                    includeProperties: false,
-                    jdk: '',
-                    properties: [],
-                    reportBuildPolicy: 'ALWAYS',
-                    results: [[path: '/opt/playwright/playwright_demo/allure-results']]
-                ])
+            dir('/opt/playwright/playwright_demo') {
+               allure includeProperties: false, jdk: '', results: [[path: 'allure-results']]
             }
         }
     }

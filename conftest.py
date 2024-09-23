@@ -4,11 +4,11 @@ import os
 from urllib.parse import urlparse
 
 import pytest
-
+import allure
 from log import logger
 from pages.login_page import LoginPage
 from playwright.sync_api import sync_playwright
-
+from playwright.sync_api import Page
 # @Author: 花菜
 # @File: conftest.py
 # @Time : 2024/1/13 00:42
@@ -68,7 +68,7 @@ def _login(page, pytestconfig):
     if base_url := pytestconfig.getoption("host"):
         logger.info(f"命令行传入参数，base_url={base_url}")
     else:
-        default_url = "http://10.30.76.33:8080"
+        default_url = "http://10.30.76.48:8080"
         logger.warning(f"没有传入base-url，会使用默认base_url = {default_url}，如果需要使用--base-url=xxx修改")
         base_url = default_url
 
@@ -96,7 +96,40 @@ def pytest_addoption(parser):
     parser.addoption(
         "--host",
         action="store",
-        default="http://10.30.76.33:8080/",
+        default="http://10.30.76.48:8080/",
         help="base URL for login page",
     )
     logger.info("添加命令行参数 host")
+
+
+@pytest.hookimpl(tryfirst=True, hookwrapper=True)
+def pytest_runtest_makereport(item, call):
+    '''
+    获取每个用例状态的钩子函数
+    :param item:
+    :param call:
+    :return:
+    '''
+    # 获取钩子方法的调用结果
+    outcome = yield
+    rep = outcome.get_result()
+
+    # 仅仅获取用例call 执行结果是失败的情况, 不包含 setup/teardown
+    if rep.when == "call" and rep.failed:
+        mode = "a" if os.path.exists("failures") else "w"
+        with open("failures", mode) as f:
+            if "tmpdir" in item.fixturenames:
+                extra = f" ({item.funcargs['tmpdir']})"
+            else:
+                extra = ""
+            f.write(f"{rep.nodeid}{extra}\n")
+        
+        # 添加allure报告截图
+        try:
+            page = item.funcargs.get('page')
+            if page and isinstance(page, Page):
+                with allure.step('添加失败截图...'):
+                    screenshot = page.screenshot()
+                    allure.attach(screenshot, name="失败截图", attachment_type=allure.attachment_type.PNG)
+        except Exception as e:
+            print(f"截图失败: {str(e)}")
