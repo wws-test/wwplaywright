@@ -68,7 +68,7 @@ def _login(page, pytestconfig):
     if base_url := pytestconfig.getoption("host"):
         logger.info(f"命令行传入参数，base_url={base_url}")
     else:
-        default_url = "http://10.30.76.48:8080"
+        default_url = "http://10.30.76.33:8080"
         logger.warning(f"没有传入base-url，会使用默认base_url = {default_url}，如果需要使用--base-url=xxx修改")
         base_url = default_url
 
@@ -96,7 +96,7 @@ def pytest_addoption(parser):
     parser.addoption(
         "--host",
         action="store",
-        default="http://10.30.76.48:8080/",
+        default="http://10.30.76.33:8080/",
         help="base URL for login page",
     )
     logger.info("添加命令行参数 host")
@@ -106,8 +106,8 @@ def pytest_addoption(parser):
 def pytest_runtest_makereport(item, call):
     '''
     获取每个用例状态的钩子函数
-    :param item:
-    :param call:
+    :param item: 表示当前正在执行的测试用例对象
+    :param call: 表示测试用例的执行状态（setup、call、teardown）
     :return:
     '''
     # 获取钩子方法的调用结果
@@ -133,3 +133,19 @@ def pytest_runtest_makereport(item, call):
                     allure.attach(screenshot, name="失败截图", attachment_type=allure.attachment_type.PNG)
         except Exception as e:
             print(f"截图失败: {str(e)}")
+
+@pytest.fixture
+def PageDownload(page: Page):
+    def trigger_shutdown(iframe, button_names):
+        # 定义一个内部函数来处理下载逻辑
+        def download_report(button_name):
+            with page.expect_download() as download_info:
+                iframe.get_by_role("button", name=button_name).click()
+                download = download_info.value
+                logger.info(f"下载诊断报告{download.suggested_filename}")
+
+        # 循环遍历每个按钮名称并下载报告
+        for name in button_names:
+            download_report(name)
+
+    return trigger_shutdown
