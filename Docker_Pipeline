@@ -1,15 +1,14 @@
 pipeline {
     agent any
-    environment {
-        DOCKER_IMAGE = 'playwright_demo'
-        TEST_CASES_DIR = 'testcases/APPS'
-        HOST_URL = 'http://10.30.76.48:8080'
+    parameters {
+      choice choices: ['http://10.30.76.33:8080', 'http://10.30.76.48:8080'], name: 'host'
+      choice choices: ['testcases/APPS', 'testcases/ISDM'], name: 'case'
     }
     stages {
         stage('Build & Run Test') {
                 steps {
                     withDockerContainer(args: '--ipc=host -v /Users/shengweiwei.SUPCON/AquaProjects/playwright_demo:/app', image: 'playwright_demo') {
-                        sh "/bin/sh -c 'cd /app && xvfb-run -a pytest ${TEST_CASES_DIR} --host=${HOST_URL}'"
+                        sh "/bin/sh -c 'cd /app && xvfb-run -a pytest  ${params.case} --host=${params.host}'"
                     }
                 }
 
