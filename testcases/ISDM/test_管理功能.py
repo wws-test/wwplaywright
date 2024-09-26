@@ -36,15 +36,16 @@ def test_workshop_monitoring(pytestconfig, login_goto_project,):
         logger.info(f"下载诊断报告{download.suggested_filename}")
 
 
-@allure.step("冗余联锁设备监测")
+@allure.step("冗余仪表偏差报警")
 def test_workshop1_monitoring(pytestconfig, login_goto_project,):
     frame_locator = navigate_to_solenoid_diagnosis_page(login_goto_project)
-    login_goto_project.page.get_by_text("冗余联锁设备监测").click()
+    login_goto_project.page.get_by_text("冗余仪表偏差报警").click()
+    frame_locator.get_by_role("button", name="search 搜索").click()
+    frame_locator.get_by_role("button", name="clear 重置").click()
     with login_goto_project.page.expect_download() as download_info:
         frame_locator.get_by_role("button", name="download 导出").click()
         download = download_info.value
         logger.info(f"下载诊断报告{download.suggested_filename}")
-    frame_locator.get_by_text("实时报警").click()
     frame_locator.get_by_text("历史报警").click()
     with login_goto_project.page.expect_download() as download_info:
         frame_locator.get_by_role("button", name="download 导出").click()

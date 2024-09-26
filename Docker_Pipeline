@@ -13,6 +13,28 @@ pipeline {
                 }
 
         }
+        stage('metersphere'){
+            step{
+                script{
+                    meterSphere method: 'testPlan', 
+                    mode: 'serial',
+                    msAccessKey: '2', 
+                    msEndpoint: '1', 
+                    msSecretKey: '3', 
+                    openMode: 'auth',
+                    projectId: '',
+                    projectName: 'PRIDE2.0', 
+                    projectType: 'projectName', 
+                    resourcePoolId: '', 
+                    testCaseId: '', 
+                    testCaseName: '',
+                    testPlanId: '', 
+                    testPlanName: 'PRIDE2.0冒烟测试', 
+                    workspaceId: ''
+            }
+                
+            }
+        }
     }
     post {
         always {

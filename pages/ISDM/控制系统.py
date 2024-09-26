@@ -66,11 +66,7 @@ def select_adjust_management(frame_locator: Page):
     frame_locator.locator("div").filter(has_text=re.compile(r"^月$")).click()
     frame_locator.locator("div").filter(has_text=re.compile(r"^年$")).click()
     frame_locator.get_by_text("实时诊断").click()
-    frame_locator.get_by_role("button", name="search 搜索").click()
-    frame_locator.get_by_role("button", name="clear 重置").click()
     frame_locator.get_by_text("历史诊断").click()
-    frame_locator.get_by_role("button", name="search 搜索").click()
-    frame_locator.get_by_role("button", name="clear 重置").click()
 
 @allure.step("阀门-阀门小开度监测")
 def select_small_opening_management(frame_locator: Page):
