@@ -85,8 +85,8 @@ def select_small_opening_management(frame_locator: Page):
 
 @allure.step("现场仪表-现场仪表监测")
 def select_small_opening_detection_management(frame_locator: Page):
-    frame_locator.locator("#rc_select_0").click()
-    frame_locator.get_by_text("环保仪表").click()
+    # # frame_locator.locator("#rc_select_0").click()
+    # frame_locator.get_by_text("环保仪表").click()
     frame_locator.get_by_role("button", name="search 搜索").click()
     frame_locator.get_by_role("button", name="clear 重置").click()
     frame_locator.get_by_text("历史报警").click()

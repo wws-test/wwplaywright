@@ -7,39 +7,40 @@ pipeline {
     stages {
         stage('Build & Run Test') {
                 steps {
-                    withDockerContainer(args: '--ipc=host -v /Users/shengweiwei.SUPCON/AquaProjects/playwright_demo:/app', image: 'playwright_demo') {
+                    withDockerContainer(args: '--ipc=host -v /opt/playwright/playwright_demo:/app', image: 'playwright_demo') {
                         sh "/bin/sh -c 'cd /app && xvfb-run -a pytest  ${params.case} --host=${params.host}'"
                     }
                 }
 
         }
-        stage('metersphere'){
-            step{
-                script{
-                    meterSphere method: 'testPlan', 
-                    mode: 'serial',
-                    msAccessKey: '2', 
-                    msEndpoint: '1', 
-                    msSecretKey: '3', 
-                    openMode: 'auth',
-                    projectId: '',
-                    projectName: 'PRIDE2.0', 
-                    projectType: 'projectName', 
-                    resourcePoolId: '', 
-                    testCaseId: '', 
-                    testCaseName: '',
-                    testPlanId: '', 
-                    testPlanName: 'PRIDE2.0冒烟测试', 
-                    workspaceId: ''
-            }
-                
-            }
+    }
+    stage('metersphere'){
+        steps{
+
+
         }
     }
     post {
         always {
             dir('/opt/playwright/playwright_demo') {
                allure includeProperties: false, jdk: '', results: [[path: 'allure-results']]
+            }
+            script{
+                                meterSphere method: 'testPlan',
+                                mode: 'serial',
+                                msAccessKey: '2',
+                                msEndpoint: '1',
+                                msSecretKey: '3',
+                                openMode: 'auth',
+                                projectId: '',
+                                projectName: 'PRIDE2.0',
+                                projectType: 'projectName',
+                                resourcePoolId: '',
+                                testCaseId: '',
+                                testCaseName: '',
+                                testPlanId: '',
+                                testPlanName: 'PRIDE2.0冒烟测试',
+                                workspaceId: ''
             }
         }
     }

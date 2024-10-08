@@ -143,6 +143,8 @@ def PageDownload(page: Page):
                 iframe.get_by_role("button", name=button_name).click()
                 download = download_info.value
                 logger.info(f"下载诊断报告{download.suggested_filename}")
+        iframe.get_by_role("button", name="search 搜索").click()
+        iframe.get_by_role("button", name="clear 重置").click()
 
         # 循环遍历每个按钮名称并下载报告
         for name in button_names:

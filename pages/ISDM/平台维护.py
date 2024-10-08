@@ -550,3 +550,305 @@ def Valve_opening_configuration(iframe: Page, page: Page,PageDownload):
     iframe.get_by_role("button", name="clear 重置").click()
     iframe.locator("._head-cell-block_187e9_71").click()
     iframe.locator(".ant-checkbox-input").first.uncheck()
+
+@allure.step("位号配置操作")
+def bit_number_configuration(frame: Page, page: Page,PageDownload):
+    # 定义需要点击的按钮名称列表
+    button_names = ["download 导出", "download 模板下载"]
+
+    # 使用 fixture 函数，并传入按钮名称列表
+    PageDownload(frame, button_names)
+    frame.get_by_role("button", name="plus-circle 新增").click()
+    frame.get_by_label("位号", exact=True).click()
+    frame.get_by_label("位号", exact=True).fill("2222")
+    frame.get_by_label("优先级").click()
+    frame.get_by_title("高", exact=True).click()
+    frame.get_by_label("位号类型").click()
+    frame.get_by_title("模拟量").nth(1).click()
+    frame.get_by_label("单位").click()
+    frame.get_by_label("单位").fill("2222")
+    frame.get_by_role("tab", name="报警配置").click()
+    frame.get_by_label("位号报警").check()
+    frame.get_by_label("HH").click()
+    frame.get_by_label("HH").fill("222")
+    frame.get_by_label("H", exact=True).click()
+    frame.get_by_label("H", exact=True).fill("222")
+    frame.get_by_label("LL", exact=True).click()
+    frame.get_by_label("LL", exact=True).fill("2222")
+    frame.get_by_label("L", exact=True).click()
+    frame.get_by_label("L", exact=True).fill("2222")
+    frame.get_by_label("报警死区").click()
+    frame.get_by_label("报警死区").fill("2222")
+    frame.get_by_role("tab", name="历史配置").click()
+    frame.get_by_role("button", name="取 消").click()
+    frame.get_by_role("button", name="search 搜索").click()
+    frame.get_by_role("button", name="clear 重置").click()
+    frame.locator("div").filter(has_text=re.compile(r"^搜索重置$")).get_by_role("button").nth(2).click()
+    frame.locator("div").filter(has_text=re.compile(r"^搜索重置$")).get_by_role("button").nth(2).click()
+
+
+@allure.step("设置数据源")
+def set_data_source(iframe: Page, page: Page):
+
+
+    iframe.get_by_role("button", name="plus-circle 新增").click()
+    iframe.get_by_label("数据源类型").click()
+    iframe.get_by_text("OPC DA").click()
+    iframe.get_by_label("数据源名称").click()
+    iframe.get_by_label("数据源名称").fill("222")
+    iframe.get_by_label("IP").click()
+    iframe.get_by_label("IP").fill("2.2.2.2")
+    iframe.get_by_label("服务名").click()
+    iframe.get_by_label("服务名").fill("1111")
+    iframe.get_by_role("button", name="测试连接").click()
+    iframe.get_by_role("button", name="取 消").click()
+    iframe.get_by_role("button", name="search 搜索").click()
+    iframe.get_by_role("button", name="clear 重置").click()
+
+
+@allure.step("新增用户组操作")
+def add_user_group(frame_locator: Page, page: Page,PageDownload):
+    button_names = ["download 全量导出", "download 模板下载"]
+
+    # 使用 fixture 函数，并传入按钮名称列表
+    PageDownload(frame_locator, button_names)
+    frame_locator.get_by_role("button", name="plus-circle 新增").click()
+    frame_locator.get_by_label("用户组").click()
+    frame_locator.get_by_label("用户组").fill("test")
+    frame_locator.locator(".ant-select-selection-overflow").click()
+    frame_locator.get_by_text("用户组用户").click()
+    frame_locator.get_by_role("button", name="取 消").click()
+
+@allure.step("新增策略操作")
+def add_strategy(frame_content: Page, page: Page):
+
+    frame_content.get_by_role("button", name="plus-circle 新增").click()
+    frame_content.get_by_label("策略名称").click()
+    frame_content.get_by_label("策略名称").fill("222")
+    frame_content.get_by_label("发送模块").click()
+    frame_content.get_by_text("日志模块").click()
+    frame_content.locator(".ace_content").first.click()
+    frame_content.locator("textarea").first.fill("2222\n\n")
+    frame_content.locator("div:nth-child(4) >.ant-row > div:nth-child(2) >.ant-form-item-control-input >.ant-form-item-control-input-content >._form-item-like_bctdy_1 >._editor-content_bctdy_8 >.ace_editor >.ace_scroller >.ace_content").click()
+    frame_content.locator("textarea").nth(1).fill("2222222\n\n")
+    frame_content.get_by_role("button", name="取 消").click()
+    frame_content.get_by_role("button", name="search 搜索").click()
+    frame_content.get_by_role("button", name="clear 重置").click()
+
+@allure.step("操作框架内元素")
+def add_alarm_suppress(frame_locator: Page, page: Page):
+    frame_locator.get_by_role("button", name="plus-circle 批量新增").click()
+    frame_locator.get_by_label("启用").click()
+    frame_locator.get_by_label("启用").click()
+    frame_locator.get_by_role("button", name="添加位号").click()
+    frame_locator.get_by_text("取 消确 定").click()
+    frame_locator.get_by_role("button", name="取 消").click()
+    frame_locator.get_by_text("工厂模型：请选择位号：设备：搜索重置").click()
+    frame_locator.get_by_role("button", name="clear 重置").click()
+    frame_locator.get_by_role("button", name="search 搜索").click()
+
+
+@allure.step("通知配置")
+def add_bit_category(iframe: Page, page: Page):
+    iframe.get_by_role("button", name="plus-circle 新增").click()
+    iframe.get_by_label("位号类别").click()
+    iframe.get_by_label("位号类别").fill("22222")
+    iframe.get_by_label("设备唯一").check()
+    iframe.get_by_label("设备唯一").uncheck()
+    iframe.get_by_role("button", name="取 消").click()
+    iframe.get_by_placeholder("请输入").click()
+    iframe.get_by_placeholder("请输入").fill("22222")
+    iframe.get_by_role("button", name="search 搜索").click()
+    iframe.get_by_role("button", name="clear 重置").click()
+
+
+
+@allure.step("IDM诊断项配置")
+def add_idm_diagnosis_item_configuration(iframe: Page, page: Page):
+    iframe.get_by_role("button", name="plus-circle 新增").click()
+    iframe.get_by_label("诊断项", exact=True).click()
+    iframe.get_by_label("诊断项", exact=True).click()
+    iframe.get_by_label("诊断项", exact=True).fill("2222")
+    iframe.get_by_label("诊断项类型").click()
+    iframe.get_by_label("诊断项类型").fill("2222")
+    iframe.get_by_label("是否报警").check()
+    iframe.get_by_label("是否报警").uncheck()
+    iframe.get_by_label("武断报警").check()
+    iframe.get_by_label("武断报警").uncheck()
+    iframe.get_by_role("button", name="添加值").click()
+    iframe.get_by_role("button", name="添加值").click()
+    iframe.get_by_role("button", name="取 消").click()
+    iframe.get_by_role("button", name="search 搜索").click()
+    iframe.get_by_role("button", name="clear 重置").click()
+    iframe.locator(".ant-checkbox-input").first.check()
+    iframe.locator(".ant-checkbox-input").first.uncheck()
+
+@allure.step("通知配置")
+def add_idm_binding(frame_content: Page, page: Page):
+    frame_content.get_by_role("button", name="plus-circle 新增").click()
+    frame_content.get_by_label("工厂模型").click()
+    frame_content.locator("._draggable_1srrt_4").click()
+    frame_content.get_by_label("IDM ID").click()
+    frame_content.get_by_label("IDM ID").fill("222")
+    frame_content.get_by_role("button", name="取 消").click()
+    frame_content.get_by_role("button", name="search 搜索").click()
+    frame_content.get_by_role("button", name="clear 重置").click()
+
+
+@allure.step("报警字典")
+def add_alarm_configuration(frame_content: Page, page: Page ,PageDownload):
+    button_names = ["download 全量导出", "download 模板下载"]
+    # 使用 fixture 函数，并传入按钮名称列表
+    PageDownload(frame_content, button_names)
+    frame_content.get_by_role("button", name="plus-circle 新增").click()
+    frame_content.get_by_label("同时显示").click()
+    frame_content.get_by_label("原始值").click()
+    frame_content.get_by_label("原始值").fill("22")
+    frame_content.get_by_label("显示值").click()
+    frame_content.get_by_label("显示值").fill("22")
+    frame_content.get_by_label("字典类别").click()
+    frame_content.get_by_text("报警代码").nth(3).click()
+    frame_content.get_by_role("button", name="取 消").click()
+    frame_content.get_by_role("button", name="search 搜索").click()
+    frame_content.get_by_role("button", name="clear 重置").click()
+
+
+@allure.step("自控回路模式")
+def add_self_control_circuit_mode(iframe: Page, page: Page):
+    iframe.get_by_role("button", name="plus-circle 新增").click()
+    iframe.get_by_label("名称").click()
+    iframe.get_by_label("名称").fill("22323")
+    iframe.get_by_label("描述").click()
+    iframe.get_by_label("描述").fill("2323232")
+    iframe.get_by_role("button", name="取 消").click()
+    iframe.get_by_role("button", name="search 搜索").click()
+    iframe.get_by_placeholder("请输入").click()
+    iframe.get_by_placeholder("请输入").fill("22")
+    iframe.get_by_role("button", name="search 搜索").click()
+    iframe.get_by_role("button", name="clear 重置").click()
+
+
+@allure.step("自控回路剔除")
+def add_self_control_circuit_exclusion(frame_content: Page, page,PageDownload):
+    button_names = ["download 全量导出", "download 模板下载"]
+    # 使用 fixture 函数，并传入按钮名称列表
+    PageDownload(frame_content, button_names)
+    frame_content.get_by_role("button", name="plus-circle 新增").click()
+    frame_content.get_by_label("新增").get_by_role("switch").click()
+    frame_content.get_by_label("新增").get_by_role("switch").click()
+    frame_content.get_by_label("自控回路").click()
+    frame_content.get_by_label("自控回路").fill("22323")
+    frame_content.get_by_role("button", name="取 消").click()
+    frame_content.get_by_role("button", name="search 搜索").click()
+    frame_content.get_by_placeholder("请输入").click()
+    frame_content.get_by_placeholder("请输入").fill("22")
+
+
+@allure.step("自控回路管理")
+def add_self_control_circuit_management(iframe: Page, page: Page,PageDownload):
+
+    button_names = ["download 导出", "download 模板下载"]
+    # 使用 fixture 函数，并传入按钮名称列表
+    PageDownload(iframe, button_names)
+    iframe.get_by_placeholder("请输入").first.click()
+    iframe.get_by_placeholder("请输入").first.fill("222")
+    iframe.get_by_role("button", name="search 搜索").click()
+    iframe.get_by_role("button", name="clear 重置").click()
+    iframe.get_by_role("button", name="plus-circle 新增").click()
+    iframe.get_by_label("新增").get_by_role("switch").first.dblclick()
+    iframe.get_by_label("新增").get_by_role("switch").nth(1).dblclick()
+    iframe.get_by_label("回路名称").click()
+    iframe.get_by_label("回路名称").fill("2222")
+    iframe.get_by_label("回路模式").click()
+    iframe.get_by_label("描述").click()
+    iframe.get_by_label("描述").fill("2222")
+    iframe.locator(".ace_content").click()
+    iframe.locator("textarea").nth(1).fill("22222\n\n")
+    iframe.get_by_role("button", name="添加位号").click()
+    iframe.get_by_label("位号($1)").click()
+    iframe.get_by_label("位号($1)").fill("2222")
+    iframe.get_by_role("button", name="取 消").click()
+
+@allure.step("联锁回路剔除")
+def add_self_control1_circuit_exclusion(frame_content: Page, page,PageDownload):
+    button_names = ["download 全量导出", "download 模板下载"]
+    # 使用 fixture 函数，并传入按钮名称列表
+    PageDownload(frame_content, button_names)
+    frame_content.get_by_role("button", name="plus-circle 新增").click()
+    frame_content.get_by_label("新增").get_by_role("switch").click()
+    frame_content.get_by_label("新增").get_by_role("switch").click()
+    frame_content.get_by_label("联锁回路").click()
+    frame_content.get_by_label("联锁回路").fill("22323")
+    frame_content.get_by_role("button", name="取 消").click()
+    frame_content.get_by_role("button", name="search 搜索").click()
+    frame_content.get_by_placeholder("请输入").click()
+    frame_content.get_by_placeholder("请输入").fill("22")
+
+
+@allure.step("冗余联锁设备管理操作")
+def add_redundancy_lock_management(frame: Page, page: Page ,PageDownload):
+    button_names = ["download 全量导出", "download 模板下载"]
+    # 使用 fixture 函数，并传入按钮名称列表
+    PageDownload(frame, button_names)
+
+    frame.get_by_text(re.compile(r"^冗余联锁设备管理$")).first.click()
+    frame.get_by_role("button", name="plus-circle 新增").click()
+    for i in range(5):
+        frame.get_by_label("新增").get_by_role("switch").nth(i).click()
+    frame.get_by_label("冗余仪表组").click()
+    frame.get_by_label("冗余仪表组").fill("222")
+    frame.get_by_label("描述").click()
+    frame.get_by_label("描述").fill("2222")
+    frame.get_by_label("偏差设定值").click()
+    frame.get_by_label("偏差设定值").fill("22")
+    frame.get_by_label("偏差报警类型").click()
+    frame.locator(".ant-select-item").first.click()
+    frame.get_by_label("展示类型").click()
+    frame.get_by_text("平均值", exact=True).click()
+    frame.get_by_role("button", name="取 消").click()
+    frame.get_by_placeholder("请输入").click()
+    frame.get_by_placeholder("请输入").fill("2222")
+    frame.get_by_role("button", name="search 搜索").click()
+    frame.get_by_role("button", name="clear 重置").click()
+    frame.locator(".ant-checkbox-input").first.check()
+    frame.locator(".ant-checkbox-input").first.uncheck()
+
+@allure.step("冗余联锁设备剔除")
+def add_self_control2_circuit_exclusion(frame_content: Page, page,PageDownload):
+    button_names = ["download 全量导出", "download 模板下载"]
+    # 使用 fixture 函数，并传入按钮名称列表
+    PageDownload(frame_content, button_names)
+    frame_content.get_by_role("button", name="plus-circle 新增").click()
+    frame_content.get_by_label("新增").get_by_role("switch").click()
+    frame_content.get_by_label("新增").get_by_role("switch").click()
+    frame_content.get_by_label("设备名称").click()
+    frame_content.get_by_label("设备名称").fill("22323")
+    frame_content.get_by_role("button", name="取 消").click()
+    frame_content.get_by_role("button", name="search 搜索").click()
+    frame_content.get_by_placeholder("请搜索").click()
+    frame_content.get_by_placeholder("请搜索").fill("22")
+
+
+@allure.step("联锁回路管理")
+def add_lock_circuit_management(iframe: Page, page: Page,PageDownload):
+
+    button_names = ["download 导出", "download 模板下载"]
+    # 使用 fixture 函数，并传入按钮名称列表
+    PageDownload(iframe, button_names)
+    iframe.get_by_placeholder("请输入").first.click()
+    iframe.get_by_placeholder("请输入").first.fill("222")
+    iframe.get_by_role("button", name="search 搜索").click()
+    iframe.get_by_role("button", name="clear 重置").click()
+    iframe.get_by_role("button", name="plus-circle 新增").click()
+    iframe.get_by_label("新增").get_by_role("switch").first.dblclick()
+    iframe.get_by_label("新增").get_by_role("switch").nth(1).dblclick()
+    iframe.get_by_label("联锁名称").click()
+    iframe.get_by_label("联锁名称").fill("2222")
+    iframe.get_by_label("描述").click()
+    iframe.get_by_label("描述").fill("2222")
+    iframe.locator(".ace_content").click()
+    iframe.locator("textarea").nth(1).fill("22222\n\n")
+    iframe.get_by_role("button", name="添加位号").click()
+    iframe.get_by_label("位号($1)").click()
+    iframe.get_by_label("位号($1)").fill("2222")
+    iframe.get_by_role("button", name="取 消").click()
