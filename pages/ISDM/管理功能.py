@@ -55,9 +55,6 @@ def select_device_ledger(frame_locator: Page, page: Page):
     frame_locator.get_by_role("button", name="重 置").click()
     frame_locator.get_by_role("button", name="重 置").click()
     frame_locator.get_by_role("button", name="取 消").click()
-    frame_locator.get_by_text("接线箱").click()
-    frame_locator.get_by_text("转速系统", exact=True).click()
-    frame_locator.get_by_text("服务器", exact=True).click()
 
 @allure.step("现存报警")
 def select_existing_alarm(frame_locator: Page, page: Page):

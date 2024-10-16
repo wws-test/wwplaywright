@@ -86,19 +86,7 @@ def notification_configuration(iframe,page: Page):
 
 @allure.step ("ECS-700机柜组态配置")
 def operate_cabinet (iframe: Page, page: Page):
-    iframe.get_by_role ("button", name="search 搜索").click ()
-    iframe.get_by_role ("button", name="clear 重置").click ()
-    iframe.get_by_role ("button", name="plus-circle 新增").click ()
-    iframe.get_by_label ("机柜名称").click ()
-    iframe.get_by_label ("机柜名称").fill ("333")
-    iframe.get_by_role ("button", name="取 消").click ()
-    with page.expect_download() as download_info:
-        iframe.get_by_role ("button", name="download 导出机柜数据").click ()
-    download = download_info.value
-    logger.info(f"下载诊断报告{download.suggested_filename}")
-    iframe.locator ("#rc_select_0").click ()
-    iframe.locator (".ant-select-item-option-content").first.click ()
-    iframe.get_by_role ("button", name="search 搜索").click ()
+    iframe.get_by_role("button").click()
 
 
 @allure.step("诊断项模板配置")
@@ -120,7 +108,10 @@ def template_operations(iframe,page):
 
 
 @allure.step("设备字段配置")
-def set_field_configuration(frame: Page, page: Page):
+def set_field_configuration(frame: Page, page: Page,PageDownload):
+    button_names = ["download 全量导出", "download 模板下载"]
+    # 使用 fixture 函数，并传入按钮名称列表
+    PageDownload(frame, button_names)
     frame.get_by_role("button", name="search 搜索").click()
     frame.get_by_role("button", name="clear 重置").click()
     frame.locator("#rc_select_0").click()
@@ -143,6 +134,7 @@ def set_field_configuration(frame: Page, page: Page):
     frame.locator("div:nth-child(7) >.ant-form-item >.ant-row >.ant-col >.ant-form-item-control-input").click()
     frame.get_by_label("显示查询").check()
     frame.get_by_label("是否唯一").check()
+
 
 
 @allure.step ("设备型号配置")

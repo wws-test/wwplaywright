@@ -151,3 +151,22 @@ def PageDownload(page: Page):
             download_report(name)
 
     return trigger_shutdown
+
+
+@pytest.fixture(scope="function", autouse=True)
+def capture_requests(page):
+    """
+    捕获接口错误请求并记录到日志
+    """
+
+    # 监听请求失败事件
+    def on_request_failed(request):
+        logger.error(f"Request failed: {request.url} | Method: {request.method} | Failure: {request.failure}")
+
+    # 监听页面的 'requestfailed' 事件
+    page.on("requestfailed", on_request_failed)
+
+    # yield
+    #
+    # # 可以根据需要在测试结束后移除监听器
+    # page.off("requestfailed", on_request_failed)

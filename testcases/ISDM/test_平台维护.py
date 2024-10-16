@@ -55,10 +55,10 @@ def test_diagnosis_item_template_configuration(pytestconfig, login_goto_project,
     template_operations(frame_locator,login_goto_project.page)
 
 @allure.story("设备字段配置")
-def test_field_management(pytestconfig, login_goto_project,):
+def test_field_management(pytestconfig, login_goto_project,PageDownload):
     frame_locator = navigate_to_solenoid_diagnosis_page(login_goto_project)
     login_goto_project.page.get_by_text("设备字段配置").click()
-    set_field_configuration(frame_locator,login_goto_project.page)
+    set_field_configuration(frame_locator,login_goto_project.page,PageDownload)
 
 
 @allure.story("设备型号配置")

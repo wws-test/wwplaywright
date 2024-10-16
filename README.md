@@ -71,3 +71,5 @@ docker-compose up -e TEST_CASES_DIR=testcases/APPS
 ```
 
 我可以在conftest 中 继承playwright的click方法吗 然后进行改造  我想要元素在点击之后自动判断page.on的网络status  是不是200 如果不是那么返回false
+
+pytest testcases/ISDM --host=http://10.30.76.33:8080
