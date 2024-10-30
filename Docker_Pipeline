@@ -7,7 +7,7 @@ pipeline {
     stages {
         stage('Build & Run Test') {
                 steps {
-                    withDockerContainer(args: '--ipc=host -v /opt/playwright/playwright_demo:/app', image: 'playwright_demo') {
+                    withDockerContainer(args: '--ipc=host -v /opt/playwright/playwright_demo:/app --entrypoint=""', image: 'playwright_demo') {
                         sh "/bin/sh -c 'cd /app && xvfb-run -a pytest  ${params.case} --host=${params.host}'"
                     }
                 }

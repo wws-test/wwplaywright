@@ -30,9 +30,6 @@ Pytest + Playwright + Allure UI自动化demo
 ```
  
 
-# 不要白嫖 🚫
-**若你对我的项目感兴趣，或者对你有帮助，请⭐star和🍴fork，让我们共同完善和提升它。你的支持是我创新并持续改进的动力💪**
-
 # 快速开始 ⏩
 ## 环境准备 🛠️
 - Python 3.9+ 🐍
@@ -70,6 +67,7 @@ docker-compose up -e HOST_URL=http://10.30.76.47 -e TEST_CASES_DIR=testcases/APP
 docker-compose up -e TEST_CASES_DIR=testcases/APPS
 ```
 
-我可以在conftest 中 继承playwright的click方法吗 然后进行改造  我想要元素在点击之后自动判断page.on的网络status  是不是200 如果不是那么返回false
-
+## 指定环境运行
+```shell
 pytest testcases/ISDM --host=http://10.30.76.33:8080
+```

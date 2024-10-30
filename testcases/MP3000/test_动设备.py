@@ -37,7 +37,7 @@ def test_Dynamic_equipment(pytestconfig, login_goto_project,):
     perform_query(frame_locator,login_goto_project.page)
 
 @allure.step("动设备机泵诊断")
-def test_Dynamic_equipment(pytestconfig, login_goto_project,):
+def test_Dynamic_equipment1(pytestconfig, login_goto_project,):
     login_goto_project.page.locator("//div[@id='root']/div[1]/section[1]/header[1]/div[1]/div[1]").click()
     login_goto_project.page.get_by_text("动设备机组诊断").click()
     login_goto_project.page.locator("#menu").get_by_text("机组在线监测").click()
