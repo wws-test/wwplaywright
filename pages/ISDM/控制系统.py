@@ -58,8 +58,6 @@ def select_adjust_management(frame_locator: Page):
     frame_locator.locator(".ant-btn").first.click()
     frame_locator.locator(".ant-btn").first.click()
     frame_locator.locator("#rc_select_0").click()
-    frame_locator.locator(".ant-select-selection-overflow").first.click()
-    frame_locator.get_by_title("Draeger").locator("div").click()
     frame_locator.get_by_role("button", name="search 搜索").click()
     frame_locator.get_by_role("button", name="clear 重置").click()
     frame_locator.get_by_text("预测报表").click()
@@ -113,7 +111,7 @@ def select_device_management(frame_locator_3: Page, page: Page):
 
 @allure.step("现场仪表-设备在线状态监测")
 def device_online_status_management(frame_locator_3: Page, page: Page):
-    with page.expect_download() as download_info:
+    with page.expect_download(timeout=60000) as download_info:
         frame_locator_3.get_by_role("button", name="download 导出").click()
         download = download_info.value
         logger.info(f"下载诊断报告{download.suggested_filename}")

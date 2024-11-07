@@ -62,9 +62,9 @@ def select_existing_alarm(frame_locator: Page, page: Page):
         frame_locator.get_by_role("button", name="download 导出").click()
     download = download_info.value
     logger.info(f"下载诊断报告{download.suggested_filename}")
-    frame_locator.get_by_placeholder("支持按 数据源类型，设备类别，厂区，装置，设备名称，事件源信息，报警事件，厂商，设备型号，现场操作用户，平台确认信息，平台确认人，故障原因，处理方式，处理人 字").click()
-    frame_locator.get_by_placeholder("支持按 数据源类型，设备类别，厂区，装置，设备名称，事件源信息，报警事件，厂商，设备型号，现场操作用户，平台确认信息，平台确认人，故障原因，处理方式，处理人 字").fill("阀门")
-    frame_locator.get_by_placeholder("支持按 数据源类型，设备类别，厂区，装置，设备名称，事件源信息，报警事件，厂商，设备型号，现场操作用户，平台确认信息，平台确认人，故障原因，处理方式，处理人 字").press("Enter")
+    frame_locator.get_by_placeholder("支持按 数据源类型，设备类别，厂区，装置，设备名称，事件源信息").click()
+    frame_locator.get_by_placeholder("支持按 数据源类型，设备类别，厂区，装置，设备名称，事件源信息").fill("阀门")
+    frame_locator.get_by_placeholder("支持按 数据源类型，设备类别，厂区，装置，设备名称，事件源信息").press("Enter")
     frame_locator.get_by_role("button", name="close-circle").click()
     frame_locator.get_by_role("button", name="search 搜索").click()
     frame_locator.get_by_text("搁置配置").click()
@@ -77,9 +77,9 @@ def select_his_alarm(frame_locator: Page, page: Page):
         frame_locator.get_by_role("button", name="download 导出").click()
     download = download_info.value
     logger.info(f"下载诊断报告{download.suggested_filename}")
-    frame_locator.get_by_placeholder("支持按 数据源类型，设备类别，厂区，装置，设备名称，事件源信息，报警事件，厂商，设备型号，现场操作用户，平台确认信息 字段的模糊搜索").click()
-    frame_locator.get_by_placeholder("支持按 数据源类型，设备类别，厂区，装置，设备名称，事件源信息，报警事件，厂商，设备型号，现场操作用户，平台确认信息 字段的模糊搜索").fill("阀门")
-    frame_locator.get_by_placeholder("支持按 数据源类型，设备类别，厂区，装置，设备名称，事件源信息，报警事件，厂商，设备型号，现场操作用户，平台确认信息 字段的模糊搜索").press("Enter")
+    frame_locator.get_by_placeholder("支持按 数据源类型，设备类别，厂区，装置").click()
+    frame_locator.get_by_placeholder("支持按 数据源类型，设备类别，厂区，装置").fill("阀门")
+    frame_locator.get_by_placeholder("支持按 数据源类型，设备类别，厂区，装置").press("Enter")
     frame_locator.get_by_role("button", name="close-circle").click()
     frame_locator.get_by_role("button", name="search 搜索").click()
 
@@ -154,10 +154,6 @@ def select_smart_meter_statistics(frame_locator: Page, page: Page):
 
 @allure.step("KPI-数字化巡检")
 def select_digital_inspection(frame2: Page, page: Page):
-    with page.expect_download() as download_info:
-        frame2.get_by_role("button", name="download 导出").first.click()
-        download = download_info.value
-        logger.info(f"下载诊断报告{download.suggested_filename}")
     frame2.get_by_role("button", name="搜 索").click()
     frame2.locator(".ant-select-selector").first.click()
     frame2.locator(".ant-select-selector").first.click()

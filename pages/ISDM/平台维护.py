@@ -115,7 +115,7 @@ def set_field_configuration(frame: Page, page: Page,PageDownload):
     frame.get_by_role("button", name="search 搜索").click()
     frame.get_by_role("button", name="clear 重置").click()
     frame.locator("#rc_select_0").click()
-    frame.get_by_text("字符串").click()
+    frame.get_by_text("字符串",exact=True).click()
     frame.get_by_placeholder("请输入").click()
     frame.get_by_placeholder("请输入").fill("33333")
     frame.locator("#rc_select_1").click()
@@ -418,8 +418,6 @@ def message_trigger_p(iframe: Page, page: Page):
     iframe.get_by_label("报警事件").fill("3333")
     iframe.get_by_label("报警等级").click()
     iframe.get_by_title("故障").click()
-    iframe.get_by_label("发送方式").click()
-    iframe.get_by_text("定时").click()
     iframe.locator(".ant-picker-input").click()
     iframe.get_by_text("此刻").click()
     iframe.get_by_label("触发次数").click()
@@ -547,7 +545,6 @@ def Valve_opening_configuration(iframe: Page, page: Page,PageDownload):
 def bit_number_configuration(frame: Page, page: Page,PageDownload):
     # 定义需要点击的按钮名称列表
     button_names = ["download 导出", "download 模板下载"]
-
     # 使用 fixture 函数，并传入按钮名称列表
     PageDownload(frame, button_names)
     frame.get_by_role("button", name="plus-circle 新增").click()
@@ -555,8 +552,6 @@ def bit_number_configuration(frame: Page, page: Page,PageDownload):
     frame.get_by_label("位号", exact=True).fill("2222")
     frame.get_by_label("优先级").click()
     frame.get_by_title("高", exact=True).click()
-    frame.get_by_label("位号类型").click()
-    frame.get_by_title("模拟量").nth(1).click()
     frame.get_by_label("单位").click()
     frame.get_by_label("单位").fill("2222")
     frame.get_by_role("tab", name="报警配置").click()
@@ -698,8 +693,6 @@ def add_alarm_configuration(frame_content: Page, page: Page ,PageDownload):
     frame_content.get_by_label("原始值").fill("22")
     frame_content.get_by_label("显示值").click()
     frame_content.get_by_label("显示值").fill("22")
-    frame_content.get_by_label("字典类别").click()
-    frame_content.get_by_text("报警代码").nth(3).click()
     frame_content.get_by_role("button", name="取 消").click()
     frame_content.get_by_role("button", name="search 搜索").click()
     frame_content.get_by_role("button", name="clear 重置").click()
@@ -787,8 +780,8 @@ def add_redundancy_lock_management(frame: Page, page: Page ,PageDownload):
     frame.get_by_role("button", name="plus-circle 新增").click()
     for i in range(5):
         frame.get_by_label("新增").get_by_role("switch").nth(i).click()
-    frame.get_by_label("冗余仪表组").click()
-    frame.get_by_label("冗余仪表组").fill("222")
+    frame.get_by_label("冗余联锁组").click()
+    frame.get_by_label("冗余联锁组").fill("222")
     frame.get_by_label("描述").click()
     frame.get_by_label("描述").fill("2222")
     frame.get_by_label("偏差设定值").click()

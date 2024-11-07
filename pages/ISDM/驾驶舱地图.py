@@ -18,7 +18,7 @@ from playwright.sync_api import Page, expect
 def select_setting_management(frame_locator: Page, page: Page):
     with allure.step("大屏"):
         frame_locator.get_by_role("button", name="报 警").click()
-        frame_locator.get_by_text("历史报警").click()
+        frame_locator.get_by_label('实时报警历史报警搁置配置').get_by_text("历史报警", exact=True).click()
         with page.expect_download() as download_info:
             frame_locator.get_by_role("button", name="download 导出").click()
             download = download_info.value
