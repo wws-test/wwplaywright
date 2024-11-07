@@ -71,10 +71,14 @@ def _login(page, pytestconfig):
         default_url = "http://10.30.76.33:8080"
         logger.warning(f"没有传入base-url，会使用默认base_url = {default_url}，如果需要使用--base-url=xxx修改")
         base_url = default_url
-
+    if passwd := pytestconfig.getoption("passwd"):
+        logger.info(f"命令行传入参数，username={passwd}")
+    else:
+        default_passwd = "Supos1304!"
+        passwd = default_passwd
     login_page = LoginPage(page, base_url=base_url)
     logger.info("开始登录.......")
-    login_page.login("wwtest", "Supcon@1209#")
+    login_page.login("admin", passwd)
     return login_page
 
 
@@ -100,7 +104,13 @@ def pytest_addoption(parser):
         help="base URL for login page",
     )
     logger.info("添加命令行参数 host")
-
+    parser.addoption(
+        "--passwd",
+        action="store",
+        default="Supcon@1304",
+        help="Username for login",
+    )
+    logger.info("添加命令行参数 username")
 
 @pytest.hookimpl(tryfirst=True, hookwrapper=True)
 def pytest_runtest_makereport(item, call):
@@ -158,15 +168,9 @@ def capture_requests(page):
     """
     捕获接口错误请求并记录到日志
     """
-
     # 监听请求失败事件
     def on_request_failed(request):
         logger.error(f"Request failed: {request.url} | Method: {request.method} | Failure: {request.failure}")
 
     # 监听页面的 'requestfailed' 事件
     page.on("requestfailed", on_request_failed)
-
-    # yield
-    #
-    # # 可以根据需要在测试结束后移除监听器
-    # page.off("requestfailed", on_request_failed)

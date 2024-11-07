@@ -1,5 +1,6 @@
 # !/usr/bin/python3
 # -*- coding: utf-8 -*-
+import time
 
 # @Author: 花菜
 # @File: login_page.py.py
@@ -26,6 +27,8 @@ class LoginPage:
     def submit_button(self):
         return self.page.locator("button")
 
+    def tips(self):
+        return self.page.get_by_role("button", name="确定")
     # 定义操作
     @allure.step("打开登录页面，填写账号密码")
     def login(self, username: str, password: str):
@@ -35,9 +38,12 @@ class LoginPage:
         self.password_input().fill(password)
         logger.info("点击登录按钮")
         self.submit_button().click()
-        # self.page.wait_for_load_state("networkidle", timeout=3_000)
-        logger.info("登录成功")
-        # self.page.goto(self.base_url + "#/hellow", timeout=3000)
+        time.sleep(2)
+        if self.tips().is_visible():
+            self.tips().click()
+            logger.info("登录成功")
+        else:
+            logger.info("登录成功")
 
 
 
