@@ -3,7 +3,7 @@ import functools
 from log import logger
 
 fake = Faker('zh_CN')
-
+print(fake.name())  # 随机生成一个中文姓名
 
 def capture_responses(func):
     @functools.wraps(func)

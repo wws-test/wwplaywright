@@ -72,7 +72,7 @@ def test_idm_diagnosis_item_configuration(pytestconfig, login_goto_project):
 def test_idm_synchronization_data(pytestconfig, login_goto_project):
     frame_locator = navigate_to_solenoid_diagnosis_page(login_goto_project)
     login_goto_project.page.locator("#menu").get_by_text("IDM配置").click()
-    login_goto_project.page.get_by_text("IDM同步数据").click()
+    login_goto_project.page.get_by_text("IDM数据同步").click()
 
 @allure.step("IDM绑定")
 def test_idm_binding(pytestconfig, login_goto_project):

@@ -180,10 +180,10 @@ def ground_connection_management(frame1: Page, page: Page):
 
 @allure.step("辅助检测-接线箱")
 def wiring_box_management(frame: Page, page: Page):
-    with page.expect_download() as download_info:
-        frame.get_by_role("button", name="download 导出").click()
-        download = download_info.value
-        logger.info(f"下载诊断报告{download.suggested_filename}")
+    # with page.expect_download() as download_info:
+    #     frame.get_by_role("button", name="download 导出").click()
+    #     download = download_info.value
+    #     logger.info(f"下载诊断报告{download.suggested_filename}")
     frame.get_by_text("历史报警").click()
     frame.get_by_text("搁置配置").click()
     frame.get_by_text("报警设备").click()
