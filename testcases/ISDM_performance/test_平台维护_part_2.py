@@ -16,7 +16,7 @@ def navigate_to_solenoid_diagnosis_page(page: PageWrapper):
 
 
 @allure.story("位号管理")
-def test_set_management(login_goto_project):
+def test_set_management1(login_goto_project):
     page = navigate_to_solenoid_diagnosis_page(login_goto_project)
     page.locator("#menu").get_by_text("位号配置").click()
     page.get_by_text("位号配置").nth(1).click()
@@ -25,7 +25,7 @@ def test_set_management(login_goto_project):
 
 
 @allure.story("数据源管理")
-def test_datamanager_management(login_goto_project):
+def test_datamanager_management1(login_goto_project):
     page = navigate_to_solenoid_diagnosis_page(login_goto_project)
     page.locator("#menu").get_by_text("位号配置").click()
     page.get_by_text("数据源管理").click()
@@ -34,7 +34,7 @@ def test_datamanager_management(login_goto_project):
 
 
 @allure.story("UA诊断项配置")
-def test_idm_diagnosis_item_configuration(login_goto_project):
+def test_idm_diagnosis_item_configuration1(login_goto_project):
     page = navigate_to_solenoid_diagnosis_page(login_goto_project)
     page.locator("#menu").get_by_text("IDM配置").click()
     page.get_by_text("UA诊断项配置").click()
@@ -43,7 +43,7 @@ def test_idm_diagnosis_item_configuration(login_goto_project):
 
 
 @allure.story("联锁回路管理")
-def test_self_control_circuit_management(login_goto_project):
+def test_self_control_circuit_management1(login_goto_project):
     page = navigate_to_solenoid_diagnosis_page(login_goto_project)
     page.locator("#menu").get_by_text("联锁投用率配置").click()
     page.get_by_text("联锁回路管理").click()

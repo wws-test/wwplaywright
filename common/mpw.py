@@ -60,11 +60,9 @@ class PageWrapper:
 
     def switch_to_frame(self, selector: str):
         self.current_frame = self.page.frame_locator(selector)
-        return self._record_action(f"Switch to dev frame ", lambda: None)
 
     def switch_to_main_frame(self):
         self.current_frame = None
-        return self._record_action("Switch to main frame", lambda: None)
 
     def fill(self, selector: str, text: str):
         target = self.current_frame or self.page

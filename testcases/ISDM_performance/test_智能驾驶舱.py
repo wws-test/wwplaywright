@@ -19,7 +19,7 @@ def navigate_to_solenoid_diagnosis_page(page: PageWrapper):
 
 
 @allure.story("驾驶舱项目点击")
-def test_set_management( login_goto_project, ):
+def test_set_management1( login_goto_project, ):
     page = navigate_to_solenoid_diagnosis_page(login_goto_project)
     page.switch_to_frame("iframe[name=\"supos-tab-framework-1\"]")
     select_setting_management_p(login_goto_project)

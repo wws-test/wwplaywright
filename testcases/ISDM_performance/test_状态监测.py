@@ -47,33 +47,33 @@ def test_valve_adjust_predict1(login_goto_project: PageWrapper):
     page.locator("#menu").get_by_text("调节阀预测").click_with_timing()
 
 @allure.story("现存报警")
-def test_workshop3_monitoring( login_goto_project,):
+def test_workshop3_monitoring1( login_goto_project,):
     page = navigate_to_solenoid_diagnosis_page1(login_goto_project)
     page.get_by_text("报警", exact=True).click()
     page.get_by_text("现存报警").click_with_timing()
 
 
 @allure.story("历史报警")
-def test_workshop4_monitoring( login_goto_project,):
+def test_workshop4_monitoring1( login_goto_project,):
     page = navigate_to_solenoid_diagnosis_page1(login_goto_project)
     page.get_by_text("报警", exact=True).click()
     page.get_by_text("历史报警").click_with_timing()
 
 
 @allure.story("开停工监测")
-def test_workshop_monitoring(login_goto_project,):
+def test_workshop_monitoring1(login_goto_project,):
     page = navigate_to_solenoid_diagnosis_page1(login_goto_project)
     page.get_by_text("开停工监测").click_with_timing()
 
 
 @allure.story("冗余仪表偏差报警")
-def test_workshop1_monitoring(login_goto_project,):
+def test_workshop1_monitoring1(login_goto_project,):
     page = navigate_to_solenoid_diagnosis_page1(login_goto_project)
     page.get_by_text("冗余仪表偏差报警").click_with_timing()
 
 
 @allure.story("设备台账")
-def test_workshop2_monitoring( login_goto_project,):
+def test_workshop2_monitoring1( login_goto_project,):
     page = navigate_to_solenoid_diagnosis_page1(login_goto_project)
     page.get_by_text("设备台账").click_with_timing()
 
