@@ -8,7 +8,8 @@ from pages.ISDM.平台维护 import  *
 def navigate_to_solenoid_diagnosis_page(page: PageWrapper):
     with allure.step("导航到仪控设备状态检查系统页面"):
         logger.info("进入维护功能")
-        page.locator("//div[@id='root']/div[1]/section[1]/header[1]/div[1]/div[1]").click()
+        page.switch_to_main_frame()
+        page.get_by_title("首页").click()
         page.get_by_text("仪控设备状态监测系统").click()
         page.locator("#menu").get_by_text("平台维护").click()
         page.locator("#menu").get_by_text("系统组态").click()
@@ -72,7 +73,7 @@ def test_valve_alarm_configuration(login_goto_project: PageWrapper):
 
 def test_teardown_module(login_goto_project):
     logger.info("fresh_page fixture ending....")
-    login_goto_project.locator("//div[@id='root']/div[1]/section[1]/header[1]/div[1]/div[1]").click()
+    login_goto_project.get_by_title("首页").click()
 
 
 

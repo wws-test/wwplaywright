@@ -10,7 +10,8 @@ from pages.ISDM.控制系统 import  *
 def navigate_to_solenoid_diagnosis_page(page: PageWrapper):
     with allure.step("导航到仪控设备状态检查系统页面"):
         logger.info("进入状态检测")
-        page.locator("//div[@id='root']/div[1]/section[1]/header[1]/div[1]/div[1]").click()
+        page.switch_to_main_frame()
+        page.get_by_title("首页").click()
         page.get_by_text("仪控设备状态监测系统").click()
         page.get_by_text("状态监测", exact=True).click()
     return page
@@ -18,7 +19,8 @@ def navigate_to_solenoid_diagnosis_page(page: PageWrapper):
 def navigate_to_solenoid_diagnosis_page1(page: PageWrapper):
     with allure.step("导航到仪控设备状态检查系统页面"):
         logger.info("进入管理功能")
-        page.locator("//div[@id='root']/div[1]/section[1]/header[1]/div[1]/div[1]").click()
+        page.switch_to_main_frame()
+        page.get_by_title("首页").click()
         page.get_by_text("仪控设备状态监测系统").click()
         page.locator("#menu").get_by_text("管理功能").click()
     return page
@@ -77,7 +79,7 @@ def test_workshop2_monitoring( login_goto_project,):
 
 def test_teardown_module(login_goto_project):
     logger.info("fresh_page fixture ending....")
-    login_goto_project.locator("//div[@id='root']/div[1]/section[1]/header[1]/div[1]/div[1]").click()
+    login_goto_project.get_by_title("首页").click()
 
 
 

@@ -7,7 +7,7 @@ from pages.ISDM.平台维护 import  *
 def navigate_to_solenoid_diagnosis_page(login_goto_project):
     with allure.step("导航到仪控设备状态检查系统页面"):
         logger.info("进入维护功能")
-        login_goto_project.page.locator("//div[@id='root']/div[1]/section[1]/header[1]/div[1]/div[1]").click()
+        login_goto_project.page.get_by_title("首页").click()
         login_goto_project.page.get_by_text("仪控设备状态监测系统").click()
         login_goto_project.page.locator("#menu").get_by_text("平台维护").click()
         login_goto_project.page.locator("#menu").get_by_text("系统组态").click()
@@ -167,7 +167,7 @@ def test_valve_small_opening_configuration(pytestconfig, login_goto_project,Page
 
 def test_teardown_module(login_goto_project):
     logger.info("fresh_page fixture ending....")
-    login_goto_project.page.locator("//div[@id='root']/div[1]/section[1]/header[1]/div[1]/div[1]").click()
+    login_goto_project.page.get_by_title("首页").click()
 
 
 

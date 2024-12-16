@@ -47,6 +47,7 @@ def test_self_control_circuit_management(login_goto_project):
     page = navigate_to_solenoid_diagnosis_page(login_goto_project)
     page.locator("#menu").get_by_text("联锁投用率配置").click()
     page.get_by_text("联锁回路管理").click()
+    page.switch_to_frame("iframe[name=\"supos-tab-framework-1\"]")
     add_self_control_circuit_management_p(page)
 
 
