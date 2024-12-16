@@ -9,7 +9,7 @@ import re
 
 import allure
 
-from common.assertion import assert_element_exists
+from common.mpw import PageWrapper
 from log import logger
 from playwright.sync_api import Page, expect
 
@@ -35,7 +35,10 @@ def select_setting_management(frame_locator: Page, page: Page):
             download = download_info.value
             logger.info(f"下载报告{download.suggested_filename}")
 
-
-
+@allure.step("石化")
+def select_setting_management_p(page: PageWrapper):
+    page.get_by_role("textbox").fill("茂名石化")
+    page.get_by_role("textbox").press("Enter")
+    page.get_by_text("茂名石化").click_with_timing()
 
 
