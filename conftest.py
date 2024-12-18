@@ -36,7 +36,6 @@ def extract_domain(url_string):
 @pytest.fixture(scope="session")
 def page(pytestconfig):
     with sync_playwright() as p:
-        data = datetime.datetime.now().strftime('%Y%m%d%H%M')
         logger.info("page session fixture starting....")
         # browser = p.chromium.launch( headless=False, timeout=5_000) #slow_mo=500,
         browser = p.chromium.launch(headless=False, timeout=5_000, args=[
@@ -53,7 +52,7 @@ def page(pytestconfig):
         trace_dir = os.path.join(BASEDIR, "traces")
         if not os.path.exists(trace_dir):
             os.makedirs(trace_dir)
-        trace_path = os.path.join(trace_dir, f"trace_{data}.zip")
+        trace_path = os.path.join(trace_dir, f"trace.zip")
         # 保存 trace.zip 文件
         context.tracing.stop(path=trace_path)
         browser.close()
@@ -82,7 +81,7 @@ def _login(page, pytestconfig):
 
 
 # 创建一个 pytest fixture 实现登录操作，并设置为session级别，实现共享登录状态
-@pytest.fixture
+@pytest.fixture(scope="session")
 def login_goto_project(page, pytestconfig):
     yield _login(page, pytestconfig)
 
@@ -145,7 +144,7 @@ def PageDownload(page: Page):
     def trigger_shutdown(iframe, button_names):
         # 定义一个内部函数来处理下载逻辑
         def download_report(button_name):
-            with page.expect_download() as download_info:
+            with page.expect_download(timeout=60_000) as download_info:
                 iframe.get_by_role("button", name=button_name).click()
                 download = download_info.value
                 logger.info(f"下载诊断报告{download.suggested_filename}")

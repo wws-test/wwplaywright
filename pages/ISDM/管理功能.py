@@ -62,9 +62,9 @@ def select_existing_alarm(frame_locator: Page, page: Page):
         frame_locator.get_by_role("button", name="download 导出").click()
     download = download_info.value
     logger.info(f"下载诊断报告{download.suggested_filename}")
-    frame_locator.get_by_placeholder("支持按 数据源类型，设备类别，厂区，装置，设备名称，事件源信息").click()
-    frame_locator.get_by_placeholder("支持按 数据源类型，设备类别，厂区，装置，设备名称，事件源信息").fill("阀门")
-    frame_locator.get_by_placeholder("支持按 数据源类型，设备类别，厂区，装置，设备名称，事件源信息").press("Enter")
+    frame_locator.get_by_placeholder("支持按 数据源类型，设备类别，厂区，装置").click()
+    frame_locator.get_by_placeholder("支持按 数据源类型，设备类别，厂区，装置").fill("阀门")
+    frame_locator.get_by_placeholder("支持按 数据源类型，设备类别，厂区，装置").press("Enter")
     frame_locator.get_by_role("button", name="close-circle").click()
     frame_locator.get_by_role("button", name="search 搜索").click()
     frame_locator.get_by_text("搁置配置").click()
