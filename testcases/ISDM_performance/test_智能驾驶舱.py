@@ -19,13 +19,13 @@ def navigate_to_solenoid_diagnosis_page(page: PageWrapper):
 
 
 @allure.story("驾驶舱项目点击")
-def test_set_management1( login_goto_project, ):
-    page = navigate_to_solenoid_diagnosis_page(login_goto_project)
+def test_set_management1( login_goto_pro, ):
+    page = navigate_to_solenoid_diagnosis_page(login_goto_pro)
     page.switch_to_frame("iframe[name=\"supos-tab-framework-1\"]")
-    select_setting_management_p(login_goto_project)
+    select_setting_management_p(login_goto_pro)
 
 
 
-def test_teardown_module(login_goto_project):
+def test_teardown_module(login_goto_pro):
     logger.info("fresh_page fixture ending....")
-    login_goto_project.get_by_title("首页").click()
+    login_goto_pro.get_by_title("首页").click()

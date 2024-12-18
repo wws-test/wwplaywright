@@ -13,7 +13,6 @@ def navigate_to_solenoid_diagnosis_page(login_goto_project):
         login_goto_project.page.locator("#menu").get_by_text("系统组态").click()
         login_goto_project.page.get_by_text("基础配置").click()
         frame_locator = login_goto_project.page.frame_locator("iframe[name=\"supos-tab-framework-1\"]")
-
     return frame_locator
 
 

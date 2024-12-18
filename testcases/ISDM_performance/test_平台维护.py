@@ -18,8 +18,8 @@ def navigate_to_solenoid_diagnosis_page(page: PageWrapper):
 
 
 @allure.step("通知配置")
-def test_knowledge_classification1(login_goto_project: PageWrapper):
-    page = navigate_to_solenoid_diagnosis_page(login_goto_project)
+def test_knowledge_classification1(login_goto_pro: PageWrapper):
+    page = navigate_to_solenoid_diagnosis_page(login_goto_pro)
     page.get_by_text("通知配置").click()
     page.switch_to_frame("iframe[name=\"supos-tab-framework-1\"]")
     select_device_ledger_P(page)
@@ -28,16 +28,16 @@ def test_knowledge_classification1(login_goto_project: PageWrapper):
 
 
 @allure.story("机柜间配置")
-def test_cabinets_configuration1(login_goto_project: PageWrapper):
-    page = navigate_to_solenoid_diagnosis_page(login_goto_project)
+def test_cabinets_configuration1(login_goto_pro: PageWrapper):
+    page = navigate_to_solenoid_diagnosis_page(login_goto_pro)
     page.get_by_text("机柜间配置").click()
     page.switch_to_frame("iframe[name=\"supos-tab-framework-1\"]")
     cabinet_room_operations_P(page)
 
 
 @allure.story("机柜配置")
-def test_cabinet_configuration1(login_goto_project: PageWrapper):
-    page = navigate_to_solenoid_diagnosis_page(login_goto_project)
+def test_cabinet_configuration1(login_goto_pro: PageWrapper):
+    page = navigate_to_solenoid_diagnosis_page(login_goto_pro)
     page.get_by_text("机柜配置").click()
     page.switch_to_frame("iframe[name=\"supos-tab-framework-1\"]")
     cabinet_operations_p(page)
@@ -45,16 +45,16 @@ def test_cabinet_configuration1(login_goto_project: PageWrapper):
 
 
 @allure.story("报警过滤")
-def test_alarm_filtering1(login_goto_project: PageWrapper):
-    page = navigate_to_solenoid_diagnosis_page(login_goto_project)
+def test_alarm_filtering1(login_goto_pro: PageWrapper):
+    page = navigate_to_solenoid_diagnosis_page(login_goto_pro)
     page.get_by_text("报警过滤").click()
     page.switch_to_frame("iframe[name=\"supos-tab-framework-1\"]")
     alarm_filtering_p(page)
 
 
 @allure.story("控制系统配置+固定了机柜D1")
-def test_control_system_configuration1(login_goto_project: PageWrapper):
-    page = navigate_to_solenoid_diagnosis_page(login_goto_project)
+def test_control_system_configuration1(login_goto_pro: PageWrapper):
+    page = navigate_to_solenoid_diagnosis_page(login_goto_pro)
     page.get_by_text("控制系统配置").click()
     page.switch_to_frame("iframe[name=\"supos-tab-framework-1\"]")
     control_system_operations_p(page)
@@ -63,17 +63,17 @@ def test_control_system_configuration1(login_goto_project: PageWrapper):
 
 
 @allure.story("阀门报警配置")
-def test_valve_alarm_configuration1(login_goto_project: PageWrapper):
-    page = navigate_to_solenoid_diagnosis_page(login_goto_project)
+def test_valve_alarm_configuration1(login_goto_pro: PageWrapper):
+    page = navigate_to_solenoid_diagnosis_page(login_goto_pro)
     page.get_by_text("阀门报警配置").click()
     page.switch_to_frame("iframe[name=\"supos-tab-framework-1\"]")
     valve_alarm_configuration_p(page)
 
 
 
-def test_teardown_module(login_goto_project):
+def test_teardown_module(login_goto_pro):
     logger.info("fresh_page fixture ending....")
-    login_goto_project.get_by_title("首页").click()
+    login_goto_pro.get_by_title("首页").click()
 
 
 

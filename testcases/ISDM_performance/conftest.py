@@ -11,7 +11,7 @@ import allure
 
 from common.mpw import PageWrapper
 from log import logger
-from pages.login_page import LoginPage
+from pages.login_page import LoginPage1
 from playwright.sync_api import sync_playwright
 from playwright.sync_api import Page
 import tempfile
@@ -33,58 +33,119 @@ def extract_domain(url_string):
     parsed_url = urlparse(url_string)
     return parsed_url.netloc
 
+
 @pytest.fixture(scope="session")
-def page(pytestconfig):
+def browser(pytestconfig):
     with sync_playwright() as p:
-        data = datetime.datetime.now().strftime('%Y%m%d%H%M')
-        logger.info("page session fixture starting....")
-        # browser = p.chromium.launch( headless=False, timeout=5_000) #slow_mo=500,
-        browser = p.chromium.launch(headless=False, timeout=5_000, args=[
-            '--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36'])  #slow_mo=500,
-        context = browser.new_context(viewport={'width': 1920, 'height': 1080})
-        page = context.new_page()
+        logger.info("Browser session starting...")
+
+        try:
+            headless = pytestconfig.getoption("--headless", default=False)
+            browser_name = os.environ.get("BROWSER", "chromium")
+
+            browser = getattr(p, browser_name).launch(
+                headless=headless,
+                timeout=5000,
+                args=[
+                    '--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36']
+            )
+
+            yield browser
+
+        except Exception as e:
+            logger.error(f"Error during browser setup: {str(e)}")
+            raise
+
+        finally:
+            logger.info("Browser session closing...")
+            if browser:
+                browser.close()
+            logger.info("Browser session closed")
+
+
+@pytest.fixture
+def page(browser, request):
+    context = browser.new_context(viewport={'width': 1920, 'height': 1080})
+    page = context.new_page()
+    wrapped_page = PageWrapper(page)
+
+    # 开始跟踪
+    data = datetime.datetime.now().strftime('%Y%m%d%H%M')
+    test_name = request.node.name
+
+    if os.environ.get("ENABLE_TRACING", "false").lower() == "true":
         context.tracing.start(screenshots=True, snapshots=True, sources=True)
-        yield page
-        logger.info("page session fixture closing.......")
-        logger.info("stop tracing...")
-        # 获取当前工作目录
+
+    yield wrapped_page
+
+    # 停止跟踪并保存
+    if os.environ.get("ENABLE_TRACING", "false").lower() == "true":
         BASEDIR = os.getcwd()
-        # 定义 trace.zip 的保存路径
         trace_dir = os.path.join(BASEDIR, "traces")
-        if not os.path.exists(trace_dir):
-            os.makedirs(trace_dir)
-        trace_path = os.path.join(trace_dir, f"trace_{data}.zip")
-        # 保存 trace.zip 文件
-        context.tracing.stop(path=trace_path)
-        browser.close()
+        os.makedirs(trace_dir, exist_ok=True)
+        trace_path = os.path.join(trace_dir, f"trace_{test_name}_{data}.zip")
+        try:
+            context.tracing.stop(path=trace_path)
+            logger.info(f"Trace for test '{test_name}' saved to {trace_path}")
+        except Exception as e:
+            logger.error(f"Error saving trace for test '{test_name}': {str(e)}")
+
+    context.close()
+
+def _login(page: PageWrapper, base_url: str, passwd: str):
+    login_page = LoginPage1(page, base_url=base_url)
+    logger.info("开始登录.......")
+    login_page.login1("admin", passwd)
+    return login_page
 
 # 创建一个 pytest fixture 实现登录操作，并设置为session级别，实现共享登录状态
-
-
-def _login(page, pytestconfig):
+@pytest.fixture(scope="session")
+def login_goto_pro(browser, pytestconfig):
     if base_url := pytestconfig.getoption("host"):
         logger.info(f"命令行传入参数，base_url={base_url}")
     else:
         default_url = "http://10.30.76.33:8080"
         logger.warning(f"没有传入base-url，会使用默认base_url = {default_url}，如果需要使用--base-url=xxx修改")
         base_url = default_url
+
     if passwd := pytestconfig.getoption("passwd"):
         logger.info(f"命令行传入参数，username={passwd}")
     else:
         default_passwd = "Supos1304!"
         passwd = default_passwd
-    login_page = LoginPage(page, base_url=base_url)
-    logger.info("开始登录.......")
-    login_page.login("admin", passwd)
-    return login_page
 
-
-
-
-# 创建一个 pytest fixture 实现登录操作，并设置为session级别，实现共享登录状态
-@pytest.fixture
-def login_goto_project(page, pytestconfig):
-    yield _login(page, pytestconfig)
+    # 创建新的上下文，并设置关闭未使用页面的选项
+    context = browser.new_context(
+        viewport={'width': 1920, 'height': 1080},
+        no_viewport=True,  # 禁用视口限制
+    )
+    
+    # 创建新页面并包装
+    page = context.new_page()
+    wrapped_page = PageWrapper(page)
+    
+    # 执行登录
+    login_page = _login(wrapped_page, base_url, passwd)
+    
+    try:
+        yield wrapped_page
+    finally:
+        # 清理所有页面，只保留主页面
+        for p in context.pages:
+            if p != page:  # 不关闭主页面
+                try:
+                    p.close()
+                except:
+                    pass
+        
+        # 返回到首页
+        try:
+            page.goto(base_url)
+        except:
+            pass
+            
+        # 关闭上下文
+        context.close()
 
 
 def pytest_addoption(parser):
@@ -104,60 +165,6 @@ def pytest_addoption(parser):
     )
     logger.info("添加命令行参数 username")
 
-
-@pytest.hookimpl(tryfirst=True, hookwrapper=True)
-def pytest_runtest_makereport(item, call):
-    '''
-    获取每个用例状态的钩子函数
-    :param item: 表示当前正在执行的测试用例对象
-    :param call: 表示测试用例的执行状态（setup、call、teardown）
-    :return:
-    '''
-    # 获取钩子方法的调用结果
-    outcome = yield
-    rep = outcome.get_result()
-
-    # 仅仅获取用例call 执行结果是失败的情况, 不包含 setup/teardown
-    if rep.when == "call" and rep.failed:
-        mode = "a" if os.path.exists("failures") else "w"
-        with open("failures", mode) as f:
-            if "tmpdir" in item.fixturenames:
-                extra = f" ({item.funcargs['tmpdir']})"
-            else:
-                extra = ""
-            f.write(f"{rep.nodeid}{extra}\n")
-
-        # 添加allure报告截图
-        try:
-            page = item.funcargs.get('page')
-            if page and isinstance(page, Page):
-                with allure.step('添加测试用例失败截图...'):
-                    screenshot = page.screenshot()
-                    allure.attach(screenshot,
-                                  name=f"测试用例失败_{item.name}",
-                                  attachment_type=allure.attachment_type.PNG)
-        except Exception as e:
-            print(f"截图失败: {str(e)}")
-
-
-@pytest.fixture
-def PageDownload(page: Page):
-    def trigger_shutdown(iframe, button_names):
-        # 定义一个内部函数来处理下载逻辑
-        def download_report(button_name):
-            with page.expect_download() as download_info:
-                iframe.get_by_role("button", name=button_name).click()
-                download = download_info.value
-                logger.info(f"下载诊断报告{download.suggested_filename}")
-
-        iframe.get_by_role("button", name="search 搜索").click()
-        iframe.get_by_role("button", name="clear 重置").click()
-
-        # 循环遍历每个按钮名称并下载报告
-        for name in button_names:
-            download_report(name)
-
-    return trigger_shutdown
 
 
 # @pytest.fixture(scope="function", autouse=True)

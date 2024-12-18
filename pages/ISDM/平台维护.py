@@ -904,7 +904,7 @@ def bit_number_configuration_p(frame: PageWrapper):
     frame.get_by_role("button", name="clear 重置").click()
     frame.locator("._loading-div_tsj3s_1 > span").first.click()
     frame.get_by_role("button", name="取 消").click_with_timing()
-    frame.locator("(//span[contains(@class,'_loading-div_tsj3s_1 _link_sipzp_1')]//span)[2]").click()
+    frame.locator("._list-handle_1s7ne_1 > span:nth-child(2) > span").first.click()
     frame.get_by_role("button", name="确 定").click_with_timing()
 
 
